@@ -1,16 +1,13 @@
 export const PHYSICS = {
-  gravity: 2550,
-  jumpVelocity: -810,
-  orbVelocity: -840,
-  baseRunSpeed: 425,
+  baseGravity: 2320,
+  baseJumpVelocity: -790,
+  baseOrbVelocity: -830,
+  baseRunSpeed: 365,
   playerSize: 38,
   groundPadding: 92
 };
 
-/**
- * Axis-aligned bounding box overlap check with slight forgiveness margin.
- */
-export function checkCollision(a, b, forgiveness = 6) {
+export function checkCollision(a, b, forgiveness = 8) {
   return (
     a.x + forgiveness < b.x + b.w - forgiveness &&
     a.x + a.w - forgiveness > b.x + forgiveness &&
