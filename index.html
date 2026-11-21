@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Henrik Anderson Oloroso | Portafolio personal</title>
+  <meta name="description" content="Portafolio personal de Henrik Anderson Oloroso García: vista estática lineal y experiencia interactiva estilo runner.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="shared/css/tokens.css">
+  <link rel="stylesheet" href="shared/css/base.css">
+  <link rel="stylesheet" href="hub/css/hub.css">
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+</head>
+<body class="hub-page">
+  <canvas id="hub-canvas" class="hub-canvas" aria-hidden="true"></canvas>
+  <div class="hub-orb hub-orb--a" aria-hidden="true"></div>
+  <div class="hub-orb hub-orb--b" aria-hidden="true"></div>
+
+  <header class="hub-topbar">
+    <div class="container hub-topbar-inner">
+      <a href="index.html" class="hub-brand">
+        <span class="hub-brand-tag">&lt;/&gt;</span>
+        <span class="hub-brand-text">Anderson Oloroso</span>
+      </a>
+
+      <button id="hub-theme-toggle" class="hub-theme-btn" type="button" aria-pressed="false" aria-label="Switch to light mode">
+        <span class="hub-theme-dot" aria-hidden="true"></span>
+        <span data-theme-label>Light</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="hub-main">
+    <div class="container hub-content">
+      <div class="hub-hero">
+        <span class="hub-kicker">Software Developer &bull; Backend &amp; Architecture</span>
+        <h1 class="hub-title">Henrik Anderson Oloroso</h1>
+        <p class="hub-subtitle">Portafolio personal</p>
+        <p class="hub-lead">
+          Elige cómo deseas explorar el portafolio: una lectura directa y estructurada o un recorrido jugable por niveles y estaciones.
+        </p>
+      </div>
+
+      <section class="hub-cards" aria-label="Modos de navegación del portafolio">
+        <a href="static-phase/index.html" class="hub-card hub-card--static" data-mode="static">
+          <div class="hub-card-top">
+            <span class="hub-card-badge">Phase 01 &bull; Linear</span>
+            <span class="hub-card-arrow" aria-hidden="true">&rarr;</span>
+          </div>
+          <h2 class="hub-card-title">Overview / Página estática</h2>
+          <p class="hub-card-desc">
+            Recorrido completo y estructurado con trayectoria, stack técnico, proyectos filtrables, terminal CLI y contacto.
+          </p>
+        </a>
+
+        <a href="adventure-phase/index.html" class="hub-card hub-card--adventure" data-mode="adventure">
+          <div class="hub-card-top">
+            <span class="hub-card-badge hub-card-badge--accent">Phase 02 &bull; Runner</span>
+            <span class="hub-card-arrow" aria-hidden="true">&rarr;</span>
+          </div>
+          <h2 class="hub-card-title">Iniciar aventura</h2>
+          <p class="hub-card-desc">
+            Avanza saltando entre bloques temáticos, descubre el stack sobre gradientes y detente en estaciones seguras para leer.
+          </p>
+        </a>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="hub/js/hub-controller.js"></script>
+</body>
+</html>
