@@ -3,7 +3,123 @@ import { LEVELS_CONFIG, DIFFICULTY_CONFIGS } from '../../data/levels-config.js';
 import { AdventureGameEngine } from '../core/game-loop.js';
 import { createInputHandler } from '../core/input-handler.js';
 import { createStationModal } from './station-modal.js';
-import { GdSynthAudio } from '../audio/gd-synth-audio.js';
+
+const STAGE_TRACKS = [
+  { bpm: 124, wave: 'sawtooth', notes: [220, 261.63, 329.63, 440, 392, 329.63, 293.66, 261.63] },
+  { bpm: 130, wave: 'square', notes: [246.94, 293.66, 369.99, 493.88, 440, 369.99, 329.63, 293.66] },
+  { bpm: 138, wave: 'sawtooth', notes: [261.63, 329.63, 392, 523.25, 493.88, 392, 349.23, 329.63] },
+  { bpm: 144, wave: 'square', notes: [293.66, 349.23, 440, 587.33, 523.25, 440, 392, 349.23] },
+  { bpm: 128, wave: 'triangle', notes: [261.63, 329.63, 392, 493.88, 587.33, 493.88, 392, 329.63] }
+];
+
+function createStageSynth() {
+  let ctx = null;
+  let enabled = true;
+  let trackIndex = 0;
+  let tempoScale = 1;
+  let stepIndex = 0;
+  let timerId = null;
+
+  function ensureContext() {
+    if (!ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        ctx = new AudioCtx();
+      }
+    }
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+  }
+
+  function stopLoop() {
+    if (timerId !== null) {
+      window.clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  function playStep() {
+    if (!enabled || !ctx || ctx.state !== 'running') return;
+    const track = STAGE_TRACKS[trackIndex];
+    const freq = track.notes[stepIndex % track.notes.length];
+    stepIndex++;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = track.wave;
+    osc.frequency.setValueAtTime(freq, now);
+
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.032, now + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.16);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.17);
+  }
+
+  function startLoop() {
+    stopLoop();
+    if (!enabled) return;
+    const track = STAGE_TRACKS[trackIndex];
+    const stepMs = Math.max(95, Math.round((60000 / track.bpm / 2) / tempoScale));
+    timerId = window.setInterval(playStep, stepMs);
+  }
+
+  return {
+    get enabled() {
+      return enabled;
+    },
+    get isRunning() {
+      return timerId !== null;
+    },
+    ensureContext,
+    startLoop,
+    setEnabled(value) {
+      enabled = Boolean(value);
+      if (!enabled) {
+        stopLoop();
+      } else {
+        ensureContext();
+        startLoop();
+      }
+    },
+    setStage(nextTrackIdx, nextTempoScale = 1) {
+      trackIndex = (nextTrackIdx ?? 0) % STAGE_TRACKS.length;
+      tempoScale = nextTempoScale || 1;
+      stepIndex = 0;
+      if (enabled) {
+        ensureContext();
+        startLoop();
+      }
+    },
+    playJumpSfx(isOrb = false) {
+      if (!enabled) return;
+      ensureContext();
+      if (!ctx || ctx.state !== 'running') return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = isOrb ? 'triangle' : 'square';
+      osc.frequency.setValueAtTime(isOrb ? 340 : 240, now);
+      osc.frequency.exponentialRampToValueAtTime(isOrb ? 760 : 520, now + 0.12);
+
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.14);
+    }
+  };
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const themeBtn = document.getElementById('adv-theme-toggle');
@@ -25,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.getElementById('adv-btn-restart');
 
   initThemeManager(themeBtn);
-  const synthAudio = new GdSynthAudio();
+  const synthAudio = createStageSynth();
 
   if (levelSelector) {
     levelSelector.innerHTML = LEVELS_CONFIG.map(
@@ -96,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     jumpBtn,
     onJump: () => {
       synthAudio.ensureContext();
-      if (synthAudio.enabled && !synthAudio.timerId) {
+      if (synthAudio.enabled && !synthAudio.isRunning) {
         synthAudio.startLoop();
       }
       if (!stationModal.isOpen) {
