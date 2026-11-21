@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Henrik Anderson Oloroso | Aventura Geometry Dash</title>
+  <meta name="description" content="Recorrido interactivo estilo runner por niveles y estaciones del portafolio de Henrik Anderson Oloroso García.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/base.css">
+  <link rel="stylesheet" href="css/adventure-layout.css">
+  <link rel="stylesheet" href="css/backdrop-typography.css">
+  <link rel="stylesheet" href="css/station-overlay.css">
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+</head>
+<body class="adventure-body">
+  <!-- HUD SUPERIOR -->
+  <header class="adv-hud" id="adv-hud">
+    <div class="adv-hud-left">
+      <a href="../index.html" class="adv-hud-btn" aria-label="Volver al Hub principal">
+        <span>&larr; Hub</span>
+      </a>
+      <a href="../static-phase/index.html" class="adv-hud-btn adv-hud-btn--ghost">
+        <span>Vista Estática</span>
+      </a>
+      <div class="adv-level-pill" id="adv-level-pill">
+        <span class="adv-level-code" id="adv-level-code">LVL 01</span>
+        <span class="adv-level-name" id="adv-level-name">PERFIL &amp; ENFOQUE</span>
+      </div>
+    </div>
+
+    <div class="adv-hud-center">
+      <div class="adv-progress-meta">
+        <span id="adv-station-status">En carrera &bull; Salta los obstáculos</span>
+        <span id="adv-progress-pct">0%</span>
+      </div>
+      <div class="adv-progress-track">
+        <div class="adv-progress-fill" id="adv-progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="adv-hud-right">
+      <label class="adv-level-select-wrap">
+        <span class="visually-hidden">Seleccionar nivel</span>
+        <select id="adv-level-selector" class="adv-level-select" aria-label="Seleccionar nivel"></select>
+      </label>
+      <button id="adv-theme-toggle" class="adv-hud-btn" type="button" aria-pressed="false">
+        <span data-theme-label>Light</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ESCENARIO PRINCIPAL -->
+  <main class="adv-stage" id="adv-stage">
+    <!-- Capa de fondo gradiente y texto gigante por nivel -->
+    <div class="adv-backdrop-layer" id="adv-backdrop-layer" aria-hidden="true">
+      <div class="adv-backdrop-kicker" id="adv-backdrop-kicker">LEVEL UP! &bull; STATION 01</div>
+      <div class="adv-backdrop-title" id="adv-backdrop-title">PERFIL &amp; ENFOQUE</div>
+      <div class="adv-backdrop-sub" id="adv-backdrop-sub">BACKEND &bull; APIS REST &bull; SQL &bull; DOCKER</div>
+    </div>
+
+    <!-- Canvas del juego -->
+    <canvas id="gd-canvas" class="gd-canvas"></canvas>
+
+    <!-- Controles táctiles / teclado en pantalla -->
+    <div class="adv-controls-bar" id="adv-controls-bar">
+      <div class="adv-controls-hint">
+        <kbd>SPACE</kbd> / <kbd>&uarr;</kbd> / <kbd>CLICK</kbd> Saltar &bull;
+        <kbd>ENTER</kbd> Continuar en estación
+      </div>
+      <div class="adv-controls-actions">
+        <button type="button" id="adv-btn-jump" class="adv-action-btn adv-action-btn--jump">
+          SALTAR
+        </button>
+        <button type="button" id="adv-btn-restart" class="adv-action-btn">
+          Reiniciar Nivel
+        </button>
+      </div>
+    </div>
+
+    <!-- OVERLAY DE ESTACIÓN SEGURA (SIN MUERTE) -->
+    <section class="station-overlay" id="station-overlay" aria-hidden="true" role="dialog" aria-labelledby="station-title">
+      <div class="station-card">
+        <div class="station-card-header">
+          <div class="station-safe-badge">
+            <span class="station-safe-dot" aria-hidden="true"></span>
+            <span id="station-badge-text">ZONA SEGURA &bull; ESTACIÓN 01 / 05</span>
+          </div>
+          <span class="station-shape-tag" id="station-shape-tag">FORMA: BLOQUES</span>
+        </div>
+
+        <h2 class="station-title" id="station-title">Perfil Profesional</h2>
+        <p class="station-subtitle" id="station-subtitle">Resumen de trayectoria y enfoque técnico</p>
+
+        <div class="station-content" id="station-content"></div>
+
+        <div class="station-footer">
+          <a href="../static-phase/index.html" class="station-btn station-btn--secondary" id="station-static-link">
+            Ver detalle completo en vista estática
+          </a>
+          <button type="button" class="station-btn station-btn--primary" id="station-continue-btn">
+            <span id="station-continue-label">Continuar aventura &rarr;</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/ui/adventure-hud.js"></script>
+</body>
+</html>
