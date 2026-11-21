@@ -1,7 +1,8 @@
 export const PHYSICS = {
-  gravity: 2250,
-  jumpVelocity: -760,
-  runSpeed: 370,
+  gravity: 2550,
+  jumpVelocity: -810,
+  orbVelocity: -840,
+  baseRunSpeed: 425,
   playerSize: 38,
   groundPadding: 92
 };
