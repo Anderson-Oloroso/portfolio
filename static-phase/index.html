@@ -43,7 +43,7 @@
         <span class="brand-tag">&lt;/&gt;</span>
         <div class="brand-info">
           <span class="brand-name">Anderson Oloroso</span>
-          <span class="brand-role">Mejora continua &bull; Hub</span>
+          <span class="brand-role" data-i18n="brandRole">Mejora continua &bull; Hub</span>
         </div>
       </a>
 
@@ -54,13 +54,13 @@
       </button>
 
       <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
-        <a href="#sobre-mi" class="nav-link">Sobre Mí</a>
-        <a href="#experiencia" class="nav-link">Experiencia</a>
-        <a href="#conocimientos" class="nav-link">Conocimientos</a>
-        <a href="#proyectos" class="nav-link">Proyectos</a>
-        <a href="#vida" class="nav-link">Mi vida</a>
-        <a href="#contacto" class="nav-link">Contacto</a>
-        <a href="../adventure-phase/index.html" class="nav-link nav-link--adventure">Aventura</a>
+        <a href="#sobre-mi" class="nav-link" data-i18n="navAbout">Sobre Mí</a>
+        <a href="#experiencia" class="nav-link" data-i18n="navExperience">Experiencia</a>
+        <a href="#conocimientos" class="nav-link" data-i18n="navSkills">Conocimientos</a>
+        <a href="#proyectos" class="nav-link" data-i18n="navProjects">Proyectos</a>
+        <a href="#vida" class="nav-link" data-i18n="navLife">Mi vida</a>
+        <a href="#contacto" class="nav-link" data-i18n="navContact">Contacto</a>
+        <a href="../adventure-phase/index.html" class="nav-link nav-link--adventure" data-i18n="navAdventure">Aventura</a>
 
         <div class="hud-pill" id="hud-pill" title="Progreso de exploración" aria-label="Progreso de exploración">
           <span class="hud-radar-dot"></span>
@@ -69,7 +69,7 @@
 
         <button class="quest-trigger-btn" id="quest-trigger" type="button" aria-label="Misión de descubrimiento: Protocolo Núcleo" title="Protocolo Núcleo">
           <span class="quest-pulse-dot" aria-hidden="true"></span>
-          <span class="quest-label">Núcleo</span>
+          <span class="quest-label" data-i18n="questLabel">Núcleo</span>
           <span class="quest-counter" id="quest-nav-counter">0/5</span>
         </button>
 
@@ -129,19 +129,19 @@
 
           <div class="hero-actions hero-anim" style="--i: 3">
             <a href="#proyectos" class="btn btn-primary" data-magnetic="0.25">
-              <span>Explorar Proyectos</span>
+              <span data-i18n="btnExploreProjects">Explorar Proyectos</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
             <a href="https://github.com/Anderson-Oloroso" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-magnetic="0.25">
               <span>GitHub</span>
             </a>
             <a href="../assets/cv/CV_Personalizado_Henrik_Anderson_Oloroso.pdf" class="btn btn-secondary" data-magnetic="0.25" download>
-              <span>Descargar CV</span>
+              <span data-i18n="btnDownloadCv">Descargar CV</span>
             </a>
           </div>
 
           <div class="hero-quick-stack hero-anim" style="--i: 4">
-            <span class="quick-stack-label">Ecosistema:</span>
+            <span class="quick-stack-label" data-i18n="quickStackLabel">Ecosistema:</span>
             <span class="quick-tag">Node.js</span>
             <span class="quick-tag">Express</span>
             <span class="quick-tag">PostgreSQL</span>
@@ -158,18 +158,18 @@
     <section class="section-padding" id="sobre-mi">
       <div class="container">
         <div class="section-header">
-          <span class="section-badge">Trayectoria &amp; Enfoque</span>
-          <h2 class="section-title">Perfil Profesional</h2>
-          <p class="section-desc">Desarrollo metódico orientado a resolver requerimientos reales con código limpio y mantenible.</p>
+          <span class="section-badge" data-i18n="aboutBadge">Trayectoria &amp; Enfoque</span>
+          <h2 class="section-title" data-i18n="aboutTitle">Perfil Profesional</h2>
+          <p class="section-desc" data-i18n="aboutDesc">Desarrollo metódico orientado a resolver requerimientos reales con código limpio y mantenible.</p>
         </div>
 
         <div class="about-card-wrapper">
           <article class="about-main-text">
-            <h3>¿Quién soy?</h3>
-            <p>
+            <h3 data-i18n="aboutWhoTitle">¿Quién soy?</h3>
+            <p data-i18n="aboutP1">
               Soy <strong>Técnico en desarrollo de software</strong>, curioso, resiliente y apasionado por la tecnología. Mi enfoque de trabajo abarca desde el diseño y estructuración de APIs REST y lógica de negocio en backend, hasta la arquitectura, normalización y optimización de bases de datos relacionales, contenerización con Docker y automatización de procesos.
             </p>
-            <p>
+            <p data-i18n="aboutP2">
               Cuento con experiencia en el diagnóstico y mantenimiento de sistemas, gestión de inventarios y registros digitales, complementado con un nivel de <strong>Inglés C1</strong> para comunicación técnica fluida y una sólida proyección hacia la <strong>ciberseguridad</strong> y soluciones de software escalables.
             </p>
           </article>
@@ -177,23 +177,23 @@
           <div class="about-specs">
             <div class="spec-box">
               <div class="spec-box-header">
-                <h4 class="spec-title">Desarrollo de Software &amp; APIs</h4>
+                <h4 class="spec-title" data-i18n="spec1Title">Desarrollo de Software &amp; APIs</h4>
               </div>
-              <p class="spec-desc">Construcción de APIs REST modulares con Node.js y Express, asincronía, middlewares y validación robusta de solicitudes.</p>
+              <p class="spec-desc" data-i18n="spec1Desc">Construcción de APIs REST modulares con Node.js y Express, asincronía, middlewares y validación robusta de solicitudes.</p>
             </div>
 
             <div class="spec-box">
               <div class="spec-box-header">
-                <h4 class="spec-title">Modelado &amp; Persistencia SQL</h4>
+                <h4 class="spec-title" data-i18n="spec2Title">Modelado &amp; Persistencia SQL</h4>
               </div>
-              <p class="spec-desc">Diseño de esquemas relacionales, normalización, consultas optimizadas, procedimientos almacenados y PL/pgSQL en PostgreSQL y MySQL.</p>
+              <p class="spec-desc" data-i18n="spec2Desc">Diseño de esquemas relacionales, normalización, consultas optimizadas, procedimientos almacenados y PL/pgSQL en PostgreSQL y MySQL.</p>
             </div>
 
             <div class="spec-box">
               <div class="spec-box-header">
-                <h4 class="spec-title">Automatización &amp; DevOps</h4>
+                <h4 class="spec-title" data-i18n="spec3Title">Automatización &amp; DevOps</h4>
               </div>
-              <p class="spec-desc">Contenedores con Docker, flujos de automatización con n8n, webhooks e integración de Prompt Engineering.</p>
+              <p class="spec-desc" data-i18n="spec3Desc">Contenedores con Docker, flujos de automatización con n8n, webhooks e integración de Prompt Engineering.</p>
             </div>
           </div>
         </div>
@@ -204,9 +204,9 @@
     <section class="section-padding" id="experiencia">
       <div class="container">
         <div class="section-header">
-          <span class="section-badge">Trayectoria profesional</span>
-          <h2 class="section-title">Experiencia laboral</h2>
-          <p class="section-desc">Experiencia en desarrollo backend, gestión ágil y soporte técnico.</p>
+          <span class="section-badge" data-i18n="expBadge">Trayectoria profesional</span>
+          <h2 class="section-title" data-i18n="expTitle">Experiencia laboral</h2>
+          <p class="section-desc" data-i18n="expDesc">Experiencia en desarrollo backend, gestión ágil y soporte técnico.</p>
         </div>
 
         <div class="experience-list" id="experience-list"></div>
@@ -217,9 +217,9 @@
     <section class="section-padding" id="conocimientos">
       <div class="container">
         <div class="section-header">
-          <span class="section-badge">Tecnologías &amp; Dominio</span>
-          <h2 class="section-title">Conocimientos adquiridos y herramientas usadas</h2>
-          <p class="section-desc">Stack tecnológico y herramientas aplicadas en proyectos de desarrollo y producción.</p>
+          <span class="section-badge" data-i18n="skillsBadge">Tecnologías &amp; Dominio</span>
+          <h2 class="section-title" data-i18n="skillsTitle">Conocimientos adquiridos y herramientas usadas</h2>
+          <p class="section-desc" data-i18n="skillsDesc">Stack tecnológico y herramientas aplicadas en proyectos de desarrollo y producción.</p>
         </div>
 
         <div class="stack-section-container" id="stack-section-container"></div>
@@ -227,19 +227,19 @@
         <div class="soft-competencies-grid">
           <div class="soft-comp-item">
             <span class="soft-comp-dot"></span>
-            <span>Resolución de problemas complejos y pensamiento analítico</span>
+            <span data-i18n="soft1">Resolución de problemas complejos y pensamiento analítico</span>
           </div>
           <div class="soft-comp-item">
             <span class="soft-comp-dot"></span>
-            <span>Trabajo colaborativo y comunicación efectiva</span>
+            <span data-i18n="soft2">Trabajo colaborativo y comunicación efectiva</span>
           </div>
           <div class="soft-comp-item">
             <span class="soft-comp-dot"></span>
-            <span>Adaptabilidad rápida a nuevas tecnologías</span>
+            <span data-i18n="soft3">Adaptabilidad rápida a nuevas tecnologías</span>
           </div>
           <div class="soft-comp-item">
             <span class="soft-comp-dot"></span>
-            <span>Inglés Nivel C1 (Avanzado / Técnico)</span>
+            <span data-i18n="soft4">Inglés Nivel C1 (Avanzado / Técnico)</span>
           </div>
         </div>
       </div>
@@ -249,16 +249,16 @@
     <section class="section-padding" id="proyectos">
       <div class="container">
         <div class="section-header">
-          <span class="section-badge">Repositorios &amp; Código</span>
-          <h2 class="section-title">Proyectos Destacados</h2>
-          <p class="section-desc">Aplicaciones desarrolladas con buenas prácticas de software y código en GitHub.</p>
+          <span class="section-badge" data-i18n="projectsBadge">Repositorios &amp; Código</span>
+          <h2 class="section-title" data-i18n="projectsTitle">Proyectos Destacados</h2>
+          <p class="section-desc" data-i18n="projectsDesc">Aplicaciones desarrolladas con buenas prácticas de software y código en GitHub.</p>
         </div>
 
         <div class="project-filters-container" role="toolbar" aria-label="Filtros por categoría de proyecto">
-          <button type="button" class="project-filter-btn active" data-filter="all" aria-pressed="true">Todos</button>
-          <button type="button" class="project-filter-btn" data-filter="backend" aria-pressed="false">Backend &amp; APIs</button>
-          <button type="button" class="project-filter-btn" data-filter="databases" aria-pressed="false">Bases de Datos &amp; SQL</button>
-          <button type="button" class="project-filter-btn" data-filter="devops" aria-pressed="false">DevOps &amp; Automatización</button>
+          <button type="button" class="project-filter-btn active" data-filter="all" aria-pressed="true" data-i18n="filterAll">Todos</button>
+          <button type="button" class="project-filter-btn" data-filter="backend" aria-pressed="false" data-i18n="filterBackend">Backend &amp; APIs</button>
+          <button type="button" class="project-filter-btn" data-filter="databases" aria-pressed="false" data-i18n="filterDb">Bases de Datos &amp; SQL</button>
+          <button type="button" class="project-filter-btn" data-filter="devops" aria-pressed="false" data-i18n="filterDevops">DevOps &amp; Automatización</button>
           <button type="button" class="project-filter-btn" data-filter="cli" aria-pressed="false">CLI &amp; Python</button>
         </div>
 
@@ -266,7 +266,7 @@
 
         <div class="projects-footer-cta">
           <a href="https://github.com/Anderson-Oloroso?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-            <span>Ver más proyectos en GitHub</span>
+            <span data-i18n="btnMoreGithub">Ver más proyectos en GitHub</span>
           </a>
         </div>
       </div>
@@ -277,15 +277,15 @@
       <div class="container">
         <div class="section-header">
           <div class="section-header-inline">
-            <span class="section-badge">Más allá del software</span>
+            <span class="section-badge" data-i18n="lifeBadge">Más allá del software</span>
             <button type="button" class="core-node" data-node-id="node-hobby" aria-label="Descifrar Nodo 04: Automatización &amp; Vida" title="Descifrar Fragmento de Datos 04">
               <span class="core-node-pulse" aria-hidden="true"></span>
               <span class="core-node-icon" aria-hidden="true">◆</span>
               <span class="core-node-num">04</span>
             </button>
           </div>
-          <h2 class="section-title">Mi vida fuera del código</h2>
-          <p class="section-desc">También disfruto de actividades que me conectan con las personas, la naturaleza y nuevos retos.</p>
+          <h2 class="section-title" data-i18n="lifeTitle">Mi vida fuera del código</h2>
+          <p class="section-desc" data-i18n="lifeDesc">También disfruto de actividades que me conectan con las personas, la naturaleza y nuevos retos.</p>
         </div>
 
         <div class="hobby-spotlight" id="hobby-spotlight">
@@ -297,7 +297,7 @@
               <span class="hobby-counter" id="hobby-spotlight-counter">1 / 8</span>
             </div>
             <h3 class="hobby-spotlight-title" id="hobby-spotlight-title">Futsal</h3>
-            <p class="hobby-spotlight-story" id="hobby-spotlight-story">
+            <p class="hobby-spotlight-story" id="hobby-spotlight-story" data-i18n="hobbyStory">
               Espacios dinámicos, toma de decisiones rápida y trabajo en equipo.
             </p>
             <div class="hobby-spotlight-controls">
@@ -316,14 +316,14 @@
     <section class="section-padding" id="contacto">
       <div class="container contact-wrapper">
         <div class="section-header">
-          <span class="section-badge">Canales Directos</span>
-          <h2 class="section-title">Información de Contacto</h2>
-          <p class="section-desc">Disponible para oportunidades laborales, colaboraciones y proyectos de software.</p>
+          <span class="section-badge" data-i18n="contactBadge">Canales Directos</span>
+          <h2 class="section-title" data-i18n="contactTitle">Información de Contacto</h2>
+          <p class="section-desc" data-i18n="contactDesc">Disponible para oportunidades laborales, colaboraciones y proyectos de software.</p>
         </div>
 
         <div class="contact-cards-grid">
           <a href="mailto:o.and871@gmail.com" class="contact-tile">
-            <span class="contact-tile-type">Correo</span>
+            <span class="contact-tile-type" data-i18n="contactEmailLabel">Correo</span>
             <span class="contact-tile-value">o.and871@gmail.com</span>
           </a>
           <a href="https://linkedin.com/in/Anderson-oloroso" target="_blank" rel="noopener noreferrer" class="contact-tile">
@@ -342,8 +342,8 @@
   <footer class="footer">
     <div class="container footer-content">
       <p class="footer-author">Henrik Anderson Oloroso García</p>
-      <p>Técnico en desarrollo de software &bull; Código estructurado con HTML5, CSS3 y Vanilla JavaScript</p>
-      <p>&copy; 2026 Todos los derechos reservados &bull; <span class="footer-highlight">GitHub Pages</span></p>
+      <p data-i18n="footerRole">Técnico en desarrollo de software &bull; Código estructurado con HTML5, CSS3 y Vanilla JavaScript</p>
+      <p>&copy; 2026 <span data-i18n="footerRights">Todos los derechos reservados</span> &bull; <span class="footer-highlight">GitHub Pages</span></p>
     </div>
   </footer>
 
@@ -367,7 +367,7 @@
         <div class="inspector-tags-container" id="inspector-tags"></div>
       </div>
       <div class="project-inspector-footer">
-        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="inspector-repo-link">Ver Repositorio</a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="inspector-repo-link" data-i18n="btnViewRepo">Ver Repositorio</a>
       </div>
     </div>
   </div>
