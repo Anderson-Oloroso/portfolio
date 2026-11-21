@@ -1,0 +1,151 @@
+/* ==========================================================================
+   DAWN GIANT BACKDROP TYPOGRAPHY WITH DIFFUSED BASE
+   ========================================================================== */
+
+.adv-backdrop-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 2rem 5.5rem;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 82%, rgba(245, 158, 11, 0.22), transparent 65%),
+    radial-gradient(circle at 22% 24%, rgba(59, 130, 246, 0.24), transparent 52%),
+    radial-gradient(circle at 78% 68%, rgba(6, 182, 212, 0.2), transparent 56%),
+    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 60%, var(--bg-elevated) 100%);
+  transition: background 0.55s var(--ease-smooth);
+}
+
+/* Subtle CRT scanlines */
+.adv-backdrop-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.022) 0px,
+    rgba(255, 255, 255, 0.022) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+}
+
+.adv-backdrop-layer[data-gradient="profile"] {
+  background:
+    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(6, 182, 212, 0.26), transparent 65%),
+    radial-gradient(circle at 24% 26%, rgba(59, 130, 246, 0.26), transparent 54%),
+    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+}
+
+.adv-backdrop-layer[data-gradient="experience"] {
+  background:
+    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(16, 185, 129, 0.25), transparent 65%),
+    radial-gradient(circle at 24% 25%, rgba(59, 130, 246, 0.22), transparent 54%),
+    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+}
+
+.adv-backdrop-layer[data-gradient="stack"] {
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 84%, rgba(6, 182, 212, 0.32), transparent 65%),
+    radial-gradient(circle at 20% 24%, rgba(139, 92, 246, 0.24), transparent 55%),
+    radial-gradient(circle at 80% 28%, rgba(59, 130, 246, 0.24), transparent 55%),
+    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-elevated) 100%);
+}
+
+.adv-backdrop-layer[data-gradient="projects"] {
+  background:
+    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(245, 158, 11, 0.26), transparent 65%),
+    radial-gradient(circle at 80% 30%, rgba(6, 182, 212, 0.2), transparent 56%),
+    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+}
+
+.adv-backdrop-layer[data-gradient="life"] {
+  background:
+    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(245, 158, 11, 0.24), rgba(139, 92, 246, 0.22) 45%, transparent 68%),
+    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+}
+
+.adv-backdrop-kicker {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 0.75rem;
+}
+
+.adv-backdrop-title {
+  position: relative;
+  z-index: 1;
+  max-width: 16ch;
+  font-family: var(--font-mono);
+  font-size: clamp(3.6rem, 11.5vw, 9.5rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: transparent;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(6, 182, 212, 0.44) 48%,
+    rgba(245, 158, 11, 0.24) 76%,
+    rgba(59, 130, 246, 0.04) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1.5px rgba(6, 182, 212, 0.36);
+
+  /* Dawn base fade directly across the giant letters */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.92) 42%,
+    rgba(0, 0, 0, 0.36) 76%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.92) 42%,
+    rgba(0, 0, 0, 0.36) 76%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+:root[data-theme="light"] .adv-backdrop-title {
+  background: linear-gradient(
+    180deg,
+    rgba(23, 32, 51, 0.56) 0%,
+    rgba(37, 99, 235, 0.36) 52%,
+    rgba(245, 158, 11, 0.18) 80%,
+    rgba(37, 99, 235, 0.03) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1.5px rgba(37, 99, 235, 0.32);
+}
+
+.adv-backdrop-sub {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 1.35vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  opacity: 0.72;
+}

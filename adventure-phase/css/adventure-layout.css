@@ -1,0 +1,209 @@
+/* ==========================================================================
+   ADVENTURE PHASE LAYOUT: HUD, STAGE, CANVAS & ON-SCREEN CONTROLS
+   ========================================================================== */
+
+.adventure-body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+}
+
+.adv-hud {
+  position: relative;
+  z-index: 20;
+  min-height: var(--nav-height);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding-inline: 1.25rem;
+  background: var(--navbar-bg-scrolled);
+  border-bottom: 1px solid var(--border-regular);
+  backdrop-filter: blur(12px);
+}
+
+.adv-hud-left,
+.adv-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.adv-hud-btn,
+.adv-level-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.78rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-regular);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.theme-icon-moon,
+:root[data-theme="light"] .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-moon {
+  display: block;
+}
+
+.adv-hud-btn:hover,
+.adv-level-select:hover {
+  border-color: var(--accent-cyan);
+}
+
+.adv-hud-btn--ghost {
+  color: var(--text-secondary);
+}
+
+.adv-level-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-regular);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.adv-level-code {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+.adv-hud-center {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 440px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.adv-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+}
+
+.adv-progress-track {
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--bg-subtle);
+  overflow: hidden;
+  border: 1px solid var(--border-dim);
+}
+
+.adv-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-emerald));
+  transition: width 0.1s linear;
+}
+
+.adv-stage {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.gd-canvas {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.adv-controls-bar {
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  bottom: 1rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.adv-controls-hint {
+  pointer-events: auto;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  background: var(--navbar-bg);
+  border: 1px solid var(--border-dim);
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(8px);
+}
+
+.adv-controls-hint kbd {
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-xs);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-regular);
+  color: var(--text-primary);
+  font-size: 0.72rem;
+}
+
+.adv-controls-actions {
+  pointer-events: auto;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.adv-action-btn {
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-regular);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.adv-action-btn--jump {
+  background: var(--accent-blue);
+  border-color: var(--accent-cyan);
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.35);
+}
+
+@media (max-width: 900px) {
+  .adv-hud {
+    grid-template-columns: 1fr;
+    padding-block: 0.6rem;
+    height: auto;
+  }
+
+  .adv-hud-left,
+  .adv-hud-right {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .adv-controls-hint {
+    display: none;
+  }
+
+  .adv-controls-bar {
+    justify-content: flex-end;
+  }
+}

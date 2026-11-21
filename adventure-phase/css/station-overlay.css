@@ -1,0 +1,197 @@
+/* ==========================================================================
+   SAFE STATION OVERLAY (PAUSED READING ZONE + CONTINUE ACTION)
+   ========================================================================== */
+
+.station-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(8, 9, 13, 0.68);
+  backdrop-filter: blur(8px);
+}
+
+.station-overlay.is-open {
+  display: flex;
+}
+
+.station-card {
+  width: 100%;
+  max-width: 680px;
+  max-height: 84vh;
+  overflow-y: auto;
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-cyan);
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.65);
+}
+
+.station-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.station-safe-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent-emerald);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 0.28rem 0.68rem;
+  border-radius: var(--radius-full);
+}
+
+.station-safe-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--accent-emerald);
+}
+
+.station-shape-tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+}
+
+.station-title {
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.station-subtitle {
+  margin-top: 0.3rem;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+}
+
+.station-content {
+  margin-block: 1.25rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.station-item {
+  padding: 0.95rem 1.05rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-regular);
+}
+
+.station-item-thumb {
+  width: 100%;
+  height: 140px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  background: var(--bg-surface);
+}
+
+.station-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.station-item-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.station-item-meta {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--accent-cyan);
+  margin-bottom: 0.35rem;
+}
+
+.station-item-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.station-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.45rem;
+}
+
+.station-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  padding: 0.24rem 0.58rem;
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-regular);
+  color: var(--text-primary);
+}
+
+.station-chip .tech-badge-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.station-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-dim);
+}
+
+.station-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.station-btn:hover {
+  transform: translateY(-2px);
+}
+
+.station-btn--primary {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+.station-btn--primary:hover {
+  background: #2563eb;
+}
+
+.station-btn--secondary {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-regular);
+  color: var(--text-secondary);
+}
