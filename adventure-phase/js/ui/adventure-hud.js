@@ -4,12 +4,48 @@ import { AdventureGameEngine } from '../core/game-loop.js';
 import { createInputHandler } from '../core/input-handler.js';
 import { createStationModal } from './station-modal.js';
 
+// 5 new original compositions (one per level) with bassline, lead melody, and synth pulse
 const STAGE_TRACKS = [
-  { bpm: 124, wave: 'sawtooth', notes: [220, 261.63, 329.63, 440, 392, 329.63, 293.66, 261.63] },
-  { bpm: 130, wave: 'square', notes: [246.94, 293.66, 369.99, 493.88, 440, 369.99, 329.63, 293.66] },
-  { bpm: 138, wave: 'sawtooth', notes: [261.63, 329.63, 392, 523.25, 493.88, 392, 349.23, 329.63] },
-  { bpm: 144, wave: 'square', notes: [293.66, 349.23, 440, 587.33, 523.25, 440, 392, 349.23] },
-  { bpm: 128, wave: 'triangle', notes: [261.63, 329.63, 392, 493.88, 587.33, 493.88, 392, 329.63] }
+  // Level 01 (Perfil): Midnight Grid — calm-yet-propulsive bass & fifths
+  {
+    bpm: 118,
+    bassWave: 'triangle',
+    leadWave: 'sine',
+    bassNotes: [110, 110, 146.83, 146.83, 164.81, 164.81, 146.83, 130.81],
+    leadNotes: [440, 523.25, 659.25, 587.33, 659.25, 783.99, 659.25, 523.25]
+  },
+  // Level 02 (Experiencia): Pipeline Sync — groovy syncopated bass & staccato lead
+  {
+    bpm: 126,
+    bassWave: 'sawtooth',
+    leadWave: 'triangle',
+    bassNotes: [123.47, 185.0, 146.83, 220.0, 164.81, 246.94, 146.83, 123.47],
+    leadNotes: [493.88, 0, 587.33, 739.99, 659.25, 587.33, 493.88, 369.99]
+  },
+  // Level 03 (Stack): Overclocked Cubes — bright retro arcade arpeggio
+  {
+    bpm: 134,
+    bassWave: 'square',
+    leadWave: 'sawtooth',
+    bassNotes: [130.81, 130.81, 196.0, 196.0, 174.61, 174.61, 146.83, 196.0],
+    leadNotes: [523.25, 659.25, 783.99, 1046.5, 880.0, 783.99, 659.25, 587.33]
+  },
+  // Level 04 (Proyectos): Crimson Voltage — fast driving ostinato
+  {
+    bpm: 140,
+    bassWave: 'sawtooth',
+    leadWave: 'square',
+    bassNotes: [146.83, 146.83, 174.61, 220.0, 196.0, 174.61, 164.81, 146.83],
+    leadNotes: [587.33, 698.46, 880.0, 783.99, 698.46, 587.33, 659.25, 440.0]
+  },
+  // Level 05 (Más allá del código): Cloud Horizon — warm synthwave pad & bell plucks
+  {
+    bpm: 122,
+    bassWave: 'sine',
+    leadWave: 'triangle',
+    bassNotes: [130.81, 164.81, 196.0, 246.94, 220.0, 196.0, 164.81, 146.83],
+    leadNotes: [659.25, 783.99, 987.77, 880.0, 783.99, 659.25, 587.33, 523.25]
+  }
 ];
 
 function createStageSynth() {
@@ -39,35 +75,54 @@ function createStageSynth() {
     }
   }
 
-  function playStep() {
-    if (!enabled || !ctx || ctx.state !== 'running') return;
-    const track = STAGE_TRACKS[trackIndex];
-    const freq = track.notes[stepIndex % track.notes.length];
-    stepIndex++;
-
+  function triggerTone(freq, wave, durationSec, peakGain, slideToFreq = null) {
+    if (!ctx || ctx.state !== 'running' || !freq) return;
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = track.wave;
+    osc.type = wave;
     osc.frequency.setValueAtTime(freq, now);
+    if (slideToFreq) {
+      osc.frequency.exponentialRampToValueAtTime(slideToFreq, now + durationSec);
+    }
 
-    gain.gain.setValueAtTime(0.001, now);
-    gain.gain.exponentialRampToValueAtTime(0.032, now + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.16);
+    gain.gain.setValueAtTime(0.0008, now);
+    gain.gain.exponentialRampToValueAtTime(peakGain, now + 0.014);
+    gain.gain.exponentialRampToValueAtTime(0.0006, now + durationSec);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.17);
+    osc.stop(now + durationSec + 0.02);
+  }
+
+  function playStep() {
+    if (!enabled || !ctx || ctx.state !== 'running') return;
+    const track = STAGE_TRACKS[trackIndex];
+    const idx = stepIndex % track.bassNotes.length;
+    const bassFreq = track.bassNotes[idx];
+    const leadFreq = track.leadNotes[idx];
+
+    // Kick-style low sweep on even steps
+    if (idx % 2 === 0) {
+      triggerTone(115, 'sine', 0.11, 0.045, 42);
+    }
+
+    triggerTone(bassFreq, track.bassWave, 0.18, 0.024);
+    if (leadFreq > 0) {
+      triggerTone(leadFreq, track.leadWave, 0.14, 0.018);
+    }
+
+    stepIndex++;
   }
 
   function startLoop() {
     stopLoop();
     if (!enabled) return;
     const track = STAGE_TRACKS[trackIndex];
-    const stepMs = Math.max(95, Math.round((60000 / track.bpm / 2) / tempoScale));
+    const stepMs = Math.max(90, Math.round((60000 / track.bpm / 2) / tempoScale));
     timerId = window.setInterval(playStep, stepMs);
   }
 
@@ -102,21 +157,7 @@ function createStageSynth() {
       if (!enabled) return;
       ensureContext();
       if (!ctx || ctx.state !== 'running') return;
-
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = isOrb ? 'triangle' : 'square';
-      osc.frequency.setValueAtTime(isOrb ? 340 : 240, now);
-      osc.frequency.exponentialRampToValueAtTime(isOrb ? 760 : 520, now + 0.12);
-
-      gain.gain.setValueAtTime(0.04, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.14);
+      triggerTone(isOrb ? 360 : 250, isOrb ? 'triangle' : 'square', 0.12, 0.035, isOrb ? 780 : 540);
     }
   };
 }

@@ -227,7 +227,15 @@ export class AdventureGameEngine {
     this.ctx.fillRect(0, this.groundY - 4, this.width, 4);
     this.ctx.globalAlpha = 1;
 
-    drawTrackFloor(this.ctx, this.width, this.height, this.groundY, this.cameraX, level.accentColor);
+    drawTrackFloor(
+        this.ctx,
+        this.width,
+        this.height,
+        this.groundY,
+        this.cameraX,
+        level.accentColor,
+        level.secondaryColor
+    );
 
     for (const obs of level.obstacles) {
       const screenX = obs.x - this.cameraX;
