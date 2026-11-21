@@ -47,6 +47,15 @@
   transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
+.theme-icon-moon,
+:root[data-theme="light"] .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-moon {
+  display: block;
+}
+
 .adv-hud-btn:hover,
 .adv-level-select:hover {
   border-color: var(--accent-cyan);

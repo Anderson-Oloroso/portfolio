@@ -38,14 +38,15 @@ export function applyTheme(theme, toggleBtn = null) {
 
   if (toggleBtn) {
     const isLight = normalized === 'light';
+    const isEn = document.documentElement.lang === 'en';
     toggleBtn.setAttribute('aria-pressed', String(isLight));
     toggleBtn.setAttribute(
       'aria-label',
-      isLight ? 'Switch to dark mode' : 'Switch to light mode'
+      isLight ? (isEn ? 'Switch to dark mode' : 'Cambiar a modo noche') : (isEn ? 'Switch to light mode' : 'Cambiar a modo día')
     );
     const labelEl = toggleBtn.querySelector('[data-theme-label]');
     if (labelEl) {
-      labelEl.textContent = isLight ? 'Dark' : 'Light';
+      labelEl.textContent = isLight ? (isEn ? 'Dark' : 'Noche') : (isEn ? 'Light' : 'Día');
     }
   }
 }

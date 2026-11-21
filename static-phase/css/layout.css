@@ -32,36 +32,46 @@
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 1000;
   min-height: var(--nav-height);
   background: var(--navbar-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-dim);
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.navbar.scrolled {
+  background: var(--navbar-bg-scrolled);
+  border-bottom-color: var(--border-regular);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  min-height: var(--nav-height);
-  padding-block: 0.5rem;
+  gap: 0.75rem;
+  height: var(--nav-height);
+  padding-block: 0;
 }
 
 .brand-wrapper {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 .brand-tag {
   font-family: var(--font-mono);
   font-size: 0.85rem;
+  font-weight: 700;
   color: var(--accent-cyan);
-  background: var(--bg-elevated);
+  background: var(--bg-surface);
   border: 1px solid var(--border-regular);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-xs);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
 }
 
 .brand-info {
@@ -71,31 +81,61 @@
 
 .brand-name {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
+  color: var(--text-primary);
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .brand-role {
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--text-tertiary);
 }
 
 .nav-links {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0.85rem;
+  gap: clamp(0.2rem, 0.35vw, 0.45rem);
 }
 
 .nav-link {
-  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 0.55rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--text-secondary);
-  transition: color var(--transition-fast);
+  white-space: nowrap;
+  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
 }
 
-.nav-link:hover,
+.nav-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+}
+
+.nav-link.active {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-regular);
+}
+
 .nav-link--adventure {
   color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.25);
+  font-weight: 600;
+}
+
+.nav-link--adventure:hover {
+  background: rgba(6, 182, 212, 0.16);
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
 }
 
 .hamburger {

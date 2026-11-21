@@ -4,6 +4,7 @@
 export function initScrollHud() {
   const bar = document.getElementById('reading-progress-bar');
   const text = document.getElementById('hud-progress-text');
+  const navbar = document.getElementById('navbar');
 
   function updateProgress() {
     const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
@@ -16,6 +17,9 @@ export function initScrollHud() {
     }
     if (text) {
       text.textContent = `${pct}%`;
+    }
+    if (navbar) {
+      navbar.classList.toggle('scrolled', scrollTop > 20);
     }
   }
 

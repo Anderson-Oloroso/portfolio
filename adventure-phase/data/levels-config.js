@@ -192,7 +192,8 @@ export const LEVELS_CONFIG = [
         title: proj.title,
         meta: proj.badge,
         desc: proj.summary,
-        chips: proj.tags
+        chips: proj.tags,
+        image: proj.image
       }))
     }
   },

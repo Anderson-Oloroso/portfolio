@@ -1,5 +1,7 @@
 import { initThemeManager } from '../../../shared/js/theme-manager.js';
 import { initI18nManager } from '../../../shared/js/i18n-manager.js';
+import { initCursor } from '../../../shared/js/cursor.js';
+import { initAmbientCanvas } from '../../../shared/js/ambient-canvas.js';
 import { initScrollHud } from './scroll-hud.js';
 import { initProjectsAndSections } from '../features/project-filter.js';
 import { initHobbySpotlight } from '../features/hobby-spotlight.js';
@@ -14,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initThemeManager(themeBtn);
   initI18nManager(langSelect);
+  initCursor();
+  initAmbientCanvas();
   initScrollHud();
   initProjectsAndSections();
   initHobbySpotlight();

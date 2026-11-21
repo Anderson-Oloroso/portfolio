@@ -1,3 +1,5 @@
+import { renderTechIcon } from '../../../shared/data/portfolio-data.js';
+
 /**
  * Controls the safe-station modal where gameplay pauses safely while reading.
  */
@@ -41,13 +43,17 @@ export function createStationModal({ onContinue }) {
         .map(
           (item) => `
           <article class="station-item">
+            ${item.image ? `<div class="station-item-thumb"><img src="${item.image}" alt="${item.title}" loading="lazy"></div>` : ''}
             <h3 class="station-item-title">${item.title}</h3>
             ${item.meta ? `<div class="station-item-meta">${item.meta}</div>` : ''}
             ${item.desc ? `<p class="station-item-desc">${item.desc}</p>` : ''}
             ${
               item.chips
                 ? `<div class="station-chips">${item.chips
-                    .map((c) => `<span class="station-chip">${c}</span>`)
+                    .map((c) => {
+                      const icon = renderTechIcon(c, '../');
+                      return `<span class="station-chip">${icon}<span>${c}</span></span>`;
+                    })
                     .join('')}</div>`
                 : ''
             }

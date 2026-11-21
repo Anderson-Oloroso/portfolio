@@ -44,11 +44,12 @@
 
 .hub-topbar {
   position: relative;
-  z-index: 2;
+  z-index: 100;
   height: var(--nav-height);
   border-bottom: 1px solid var(--border-dim);
   background: var(--navbar-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .hub-topbar-inner {
@@ -61,48 +62,106 @@
 .hub-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  gap: 0.75rem;
 }
 
 .hub-brand-tag {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--accent-cyan);
-  background: var(--bg-elevated);
+  background: var(--bg-surface);
   border: 1px solid var(--border-regular);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-xs);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+}
+
+.hub-brand-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .hub-brand-text {
-  font-size: 1rem;
+  font-size: 0.98rem;
+  font-weight: 700;
   color: var(--text-primary);
+  line-height: 1.2;
 }
 
-.hub-theme-btn {
+.hub-brand-role {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.hub-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.hub-nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.85rem;
-  border-radius: var(--radius-full);
-  background: var(--bg-surface);
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 0.85rem;
   border: 1px solid var(--border-regular);
-  font-size: 0.85rem;
-  font-weight: 500;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--text-secondary);
-  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
-.hub-theme-btn:hover {
-  color: var(--text-primary);
+.hub-nav-link:hover {
   border-color: var(--border-bright);
+  color: var(--text-primary);
+  background: var(--bg-subtle);
 }
 
-.hub-theme-dot {
-  width: 8px;
-  height: 8px;
+.hub-nav-link--adventure {
+  border-color: rgba(6, 182, 212, 0.35);
+  background: rgba(6, 182, 212, 0.08);
+  color: var(--accent-cyan);
+}
+
+.hub-nav-link--adventure:hover {
+  border-color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.18);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+}
+
+.theme-toggle {
+  min-height: 40px;
+  border: 1px solid var(--border-regular);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font: 600 0.82rem var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent-blue);
+}
+
+.theme-icon-moon,
+:root[data-theme="light"] .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-moon {
+  display: block;
+}
   border-radius: var(--radius-full);
   background: var(--accent-amber);
 }

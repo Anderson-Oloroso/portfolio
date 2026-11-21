@@ -1,4 +1,6 @@
 import { initThemeManager } from '../../../shared/js/theme-manager.js';
+import { initCursor } from '../../../shared/js/cursor.js';
+import { initAmbientCanvas } from '../../../shared/js/ambient-canvas.js';
 import { LEVELS_CONFIG, DIFFICULTY_CONFIGS } from '../../data/levels-config.js';
 import { AdventureGameEngine } from '../core/game-loop.js';
 import { createInputHandler } from '../core/input-handler.js';
@@ -182,6 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.getElementById('adv-btn-restart');
 
   initThemeManager(themeBtn);
+  initCursor();
+  initAmbientCanvas();
   const synthAudio = createStageSynth();
 
   if (levelSelector) {
