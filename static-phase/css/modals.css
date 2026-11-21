@@ -1,0 +1,188 @@
+/* ==========================================================================
+   STATIC PHASE MODALS: ARCHITECTURE INSPECTOR, CLI TERMINAL & CORE QUEST
+   ========================================================================== */
+
+.project-inspector-modal,
+.dev-terminal-modal,
+.quest-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.project-inspector-modal.is-open,
+.dev-terminal-modal.is-open,
+.quest-modal.is-open {
+  display: flex;
+}
+
+.project-inspector-backdrop,
+.dev-terminal-backdrop,
+.quest-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 9, 13, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.project-inspector-dialog,
+.dev-terminal-window,
+.quest-window {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 660px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-regular);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.project-inspector-header,
+.dev-terminal-header,
+.quest-header,
+.quest-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.project-inspector-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-block: 1.1rem;
+}
+
+.inspector-hero-banner img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.inspector-block-desc,
+.quest-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.inspector-tags-container,
+.quest-nodes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dev-terminal-body {
+  margin-block: 1rem;
+  min-height: 180px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-app);
+  border: 1px solid var(--border-dim);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.dev-terminal-prompt-line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.terminal-prompt-sym {
+  color: var(--accent-emerald);
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.quest-progress-box {
+  margin-block: 1rem;
+}
+
+.quest-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  margin-bottom: 0.4rem;
+}
+
+.quest-progress-track {
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: var(--accent-cyan);
+  transition: width var(--transition-normal);
+}
+
+.quest-node-chip {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-regular);
+}
+
+.quest-node-chip.is-unlocked {
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+}
+
+.quest-dossier-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-dim);
+}
+
+.quest-footer {
+  margin-top: 1.25rem;
+}
+
+.quest-toast {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 95;
+  max-width: 340px;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent-cyan);
+  display: none;
+}
+
+.quest-toast.is-visible {
+  display: block;
+}
+
+.quest-toast-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+}
