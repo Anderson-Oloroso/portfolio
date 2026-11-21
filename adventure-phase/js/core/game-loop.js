@@ -23,6 +23,9 @@ export class AdventureGameEngine {
     this.width = 0;
     this.height = 0;
     this.groundY = 0;
+    this.elapsedSec = 0;
+    this.shakeTimer = 0;
+    this.triggeredOrbs = new Set();
     this.rafId = 0;
     this.lastTime = performance.now();
 
@@ -38,7 +41,7 @@ export class AdventureGameEngine {
     this.canvas.width = Math.floor(this.width * dpr);
     this.canvas.height = Math.floor(this.height * dpr);
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    this.groundY = Math.max(220, this.height - PHYSICS.groundPadding);
+    this.groundY = Math.max(230, this.height - PHYSICS.groundPadding);
   }
 
   get currentLevel() {
@@ -49,24 +52,53 @@ export class AdventureGameEngine {
     this.levelIndex = (index + this.levels.length) % this.levels.length;
     this.cameraX = 0;
     this.state = 'RUNNING';
+    this.triggeredOrbs.clear();
     this.player.reset(120, this.groundY);
     this.onLevelChange?.(this.currentLevel, this.levelIndex);
-    this.onProgress?.(0, 'En carrera · Salta los bloques');
+    this.onProgress?.(0, 'En carrera · Salta y encadena plataformas');
   }
 
   restartCurrentLevel() {
     this.loadLevel(this.levelIndex);
-    this.particles.burst(this.player.x + 18, this.player.y + 18, this.currentLevel.accentColor, 14);
+    this.particles.burst(this.player.x + 18, this.player.y + 18, this.currentLevel.accentColor, 16);
   }
 
   jump() {
     if (this.state !== 'RUNNING') return;
+
+    // 1. Check mid-air jump orb activation first
+    const level = this.currentLevel;
+    const playerWorldX = this.cameraX + this.player.x;
+    const playerBox = {
+      x: playerWorldX - 10,
+      y: this.player.y - 10,
+      w: this.player.size + 20,
+      h: this.player.size + 20
+    };
+
+    for (let i = 0; i < level.obstacles.length; i++) {
+      const obs = level.obstacles[i];
+      if (obs.shape !== 'jump-orb' || this.triggeredOrbs.has(i)) continue;
+      const obsTopY = this.groundY - (obs.yOffset || 0) - obs.h;
+      const orbBox = { x: obs.x, y: obsTopY, w: obs.w, h: obs.h };
+
+      if (checkCollision(playerBox, orbBox, 0)) {
+        this.triggeredOrbs.add(i);
+        this.player.vy = PHYSICS.orbVelocity;
+        this.player.onGround = false;
+        this.shakeTimer = 0.1;
+        this.particles.burst(this.player.x + 19, this.player.y + 19, '#f59e0b', 18);
+        return;
+      }
+    }
+
+    // 2. Standard ground/platform jump
     if (this.player.jump()) {
       this.particles.burst(
         this.player.x + this.player.size / 2,
         this.player.y + this.player.size,
         this.currentLevel.accentColor,
-        8
+        10
       );
     }
   }
@@ -89,18 +121,25 @@ export class AdventureGameEngine {
   }
 
   update(dt) {
+    this.elapsedSec += dt;
+    if (this.shakeTimer > 0) {
+      this.shakeTimer = Math.max(0, this.shakeTimer - dt);
+    }
+
     this.particles.update(dt);
     if (this.state !== 'RUNNING') return;
 
     const level = this.currentLevel;
-    this.cameraX += PHYSICS.runSpeed * dt;
+    const speed = PHYSICS.baseRunSpeed * (level.speedMultiplier || 1);
+    const prevPlayerBottom = this.player.y + this.player.size;
+
+    this.cameraX += speed * dt;
     this.player.update(dt, this.groundY);
 
     const playerWorldX = this.cameraX + this.player.x;
     const pct = Math.min(100, Math.max(0, Math.round((playerWorldX / level.stationX) * 100)));
-    this.onProgress?.(pct, 'En carrera · Salta los bloques');
+    this.onProgress?.(pct, `Velocidad ${level.speedMultiplier || 1}x · ${level.shapeLabel}`);
 
-    // Check obstacles
     const playerBox = {
       x: playerWorldX,
       y: this.player.y,
@@ -109,30 +148,51 @@ export class AdventureGameEngine {
     };
 
     for (const obs of level.obstacles) {
+      if (obs.shape === 'jump-orb') continue;
+
+      const obsBottomY = this.groundY - (obs.yOffset || 0);
+      const obsTopY = obsBottomY - obs.h;
       const obsBox = {
         x: obs.x,
-        y: this.groundY - obs.h,
+        y: obsTopY,
         w: obs.w,
         h: obs.h
       };
 
-      if (checkCollision(playerBox, obsBox, 7)) {
-        // Gentle checkpoint reset to start of current level
-        this.particles.burst(this.player.x + 18, this.player.y + 18, '#f59e0b', 16);
-        this.cameraX = 0;
-        this.player.reset(120, this.groundY);
-        this.onProgress?.(0, 'Reintento rápido · ¡Vuelve a saltar!');
-        return;
+      if (!checkCollision(playerBox, obsBox, 5)) continue;
+
+      // Allow landing cleanly on top of solid blocks/platforms/cubes/clouds
+      const isLandingOnTop =
+        obs.solidTop &&
+        this.player.vy >= 0 &&
+        prevPlayerBottom <= obsTopY + 16;
+
+      if (isLandingOnTop) {
+        this.player.y = obsTopY - this.player.size;
+        this.player.vy = 0;
+        this.player.onGround = true;
+        const quarter = Math.PI / 2;
+        this.player.rotation = Math.round(this.player.rotation / quarter) * quarter;
+        continue;
       }
+
+      // Side collision or lethal hazard (spike / saw) -> fast adrenaline reset
+      this.shakeTimer = 0.22;
+      this.particles.burst(this.player.x + 18, this.player.y + 18, '#f59e0b', 22);
+      this.cameraX = 0;
+      this.triggeredOrbs.clear();
+      this.player.reset(120, this.groundY);
+      this.onProgress?.(0, '¡Impacto! Reintento instantáneo');
+      return;
     }
 
-    // Check arrival at safe station (player cannot die here)
+    // Safe station arrival
     if (playerWorldX >= level.stationX) {
       this.state = 'STATION_PAUSED';
       this.player.y = this.groundY - this.player.size;
       this.player.vy = 0;
       this.player.onGround = true;
-      this.particles.burst(this.player.x + 20, this.player.y + 10, '#10b981', 18);
+      this.particles.burst(this.player.x + 20, this.player.y + 10, '#10b981', 22);
       this.onProgress?.(100, 'Estación segura · Lectura activa');
       this.onReachStation?.(level, this.levelIndex, this.levels.length);
     }
@@ -140,24 +200,39 @@ export class AdventureGameEngine {
 
   render() {
     const level = this.currentLevel;
+    this.ctx.save();
     this.ctx.clearRect(0, 0, this.width, this.height);
+
+    // Subtle camera shake on impact or orb boost
+    if (this.shakeTimer > 0) {
+      const mag = this.shakeTimer * 28;
+      this.ctx.translate((Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag);
+    }
+
+    // Beat pulse line in background
+    const pulseAlpha = 0.06 + Math.abs(Math.sin(this.elapsedSec * 4.5)) * 0.08;
+    this.ctx.fillStyle = level.accentColor;
+    this.ctx.globalAlpha = pulseAlpha;
+    this.ctx.fillRect(0, this.groundY - 4, this.width, 4);
+    this.ctx.globalAlpha = 1;
 
     drawTrackFloor(this.ctx, this.width, this.height, this.groundY, this.cameraX, level.accentColor);
 
-    // Draw visible obstacles
+    // Draw obstacles
     for (const obs of level.obstacles) {
       const screenX = obs.x - this.cameraX;
-      if (screenX + obs.w < -40 || screenX > this.width + 60) continue;
-      drawObstacle(this.ctx, obs, screenX, this.groundY, level);
+      if (screenX + obs.w < -60 || screenX > this.width + 80) continue;
+      drawObstacle(this.ctx, obs, screenX, this.groundY, level, this.elapsedSec);
     }
 
-    // Draw safe station gate
+    // Draw safe station
     const stationScreenX = level.stationX - this.cameraX;
-    if (stationScreenX < this.width + 120) {
+    if (stationScreenX < this.width + 140) {
       drawSafeStation(this.ctx, stationScreenX, this.groundY, '#10b981');
     }
 
     this.particles.draw(this.ctx);
     this.player.draw(this.ctx, level.accentColor);
+    this.ctx.restore();
   }
 }
