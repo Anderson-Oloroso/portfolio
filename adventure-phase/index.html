@@ -18,7 +18,6 @@
   <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
 </head>
 <body class="adventure-body">
-  <!-- HUD SUPERIOR -->
   <header class="adv-hud" id="adv-hud">
     <div class="adv-hud-left">
       <a href="../index.html" class="adv-hud-btn" aria-label="Volver al Hub principal">
@@ -35,7 +34,7 @@
 
     <div class="adv-hud-center">
       <div class="adv-progress-meta">
-        <span id="adv-station-status">En carrera &bull; Salta los obstáculos</span>
+        <span id="adv-station-status">En carrera &bull; Salta y encadena plataformas</span>
         <span id="adv-progress-pct">0%</span>
       </div>
       <div class="adv-progress-track">
@@ -48,25 +47,35 @@
         <span class="visually-hidden">Seleccionar nivel</span>
         <select id="adv-level-selector" class="adv-level-select" aria-label="Seleccionar nivel"></select>
       </label>
+
+      <label class="adv-level-select-wrap">
+        <span class="visually-hidden">Seleccionar dificultad</span>
+        <select id="adv-difficulty-selector" class="adv-level-select" aria-label="Seleccionar dificultad">
+          <option value="easy">Dificultad: Fácil</option>
+          <option value="medium" selected>Dificultad: Medio</option>
+          <option value="hard">Dificultad: Difícil</option>
+        </select>
+      </label>
+
+      <button id="adv-audio-toggle" class="adv-hud-btn" type="button" aria-pressed="false" aria-label="Activar o silenciar música del juego">
+        <span id="adv-audio-label">Audio: ON</span>
+      </button>
+
       <button id="adv-theme-toggle" class="adv-hud-btn" type="button" aria-pressed="false">
         <span data-theme-label>Light</span>
       </button>
     </div>
   </header>
 
-  <!-- ESCENARIO PRINCIPAL -->
   <main class="adv-stage" id="adv-stage">
-    <!-- Capa de fondo gradiente y texto gigante por nivel -->
     <div class="adv-backdrop-layer" id="adv-backdrop-layer" aria-hidden="true">
-      <div class="adv-backdrop-kicker" id="adv-backdrop-kicker">LEVEL UP! &bull; STATION 01</div>
+      <div class="adv-backdrop-kicker" id="adv-backdrop-kicker">STAGE 01 &bull; SYSTEM ARCHITECTURE</div>
       <div class="adv-backdrop-title" id="adv-backdrop-title">PERFIL &amp; ENFOQUE</div>
-      <div class="adv-backdrop-sub" id="adv-backdrop-sub">BACKEND &bull; APIS REST &bull; SQL &bull; DOCKER</div>
+      <div class="adv-backdrop-sub" id="adv-backdrop-sub">BACKEND &bull; APIS REST &bull; SQL 3FN &bull; DOCKER &bull; CIBERSEGURIDAD</div>
     </div>
 
-    <!-- Canvas del juego -->
     <canvas id="gd-canvas" class="gd-canvas"></canvas>
 
-    <!-- Controles táctiles / teclado en pantalla -->
     <div class="adv-controls-bar" id="adv-controls-bar">
       <div class="adv-controls-hint">
         <kbd>SPACE</kbd> / <kbd>&uarr;</kbd> / <kbd>CLICK</kbd> Saltar &bull;
@@ -82,7 +91,6 @@
       </div>
     </div>
 
-    <!-- OVERLAY DE ESTACIÓN SEGURA (SIN MUERTE) -->
     <section class="station-overlay" id="station-overlay" aria-hidden="true" role="dialog" aria-labelledby="station-title">
       <div class="station-card">
         <div class="station-card-header">
