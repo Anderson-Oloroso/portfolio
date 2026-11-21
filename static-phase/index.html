@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Henrik Anderson Oloroso García | Técnico en desarrollo de Software</title>
+  <meta name="description" content="Portafolio profesional de Henrik Anderson Oloroso García - Técnico en desarrollo de Software enfocado en APIs REST, bases de datos relacionales, Docker, Prompt Engineering y automatización.">
+  <meta name="keywords" content="Desarrollo de Software, Backend, Node.js, Express, PostgreSQL, MySQL, PL/pgSQL, Docker, Python, JavaScript, n8n, Prompt Engineering, Git, GitHub">
+  <meta name="author" content="Henrik Anderson Oloroso García">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Henrik Anderson Oloroso García | Técnico en desarrollo de Software">
+  <meta property="og:description" content="Portafolio profesional con proyectos de software, APIs REST y bases de datos relacionales.">
+  <meta property="og:url" content="https://anderson-oloroso.github.io">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+
+  <script>
+    document.documentElement.classList.add('js');
+    setTimeout(function () { document.documentElement.classList.add('is-ready'); }, 3000);
+  </script>
+</head>
+<body class="static-phase-body">
+  <div id="reading-progress-container" class="reading-progress-container" aria-hidden="true">
+    <div id="reading-progress-bar" class="reading-progress-bar"></div>
+  </div>
+
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- NAVEGACIÓN -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand-wrapper" aria-label="Volver al Hub principal">
+        <span class="brand-tag">&lt;/&gt;</span>
+        <div class="brand-info">
+          <span class="brand-name">Anderson Oloroso</span>
+          <span class="brand-role">Mejora continua &bull; Hub</span>
+        </div>
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-links">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
+        <a href="#sobre-mi" class="nav-link">Sobre Mí</a>
+        <a href="#experiencia" class="nav-link">Experiencia</a>
+        <a href="#conocimientos" class="nav-link">Conocimientos</a>
+        <a href="#proyectos" class="nav-link">Proyectos</a>
+        <a href="#vida" class="nav-link">Mi vida</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+        <a href="../adventure-phase/index.html" class="nav-link nav-link--adventure">Aventura</a>
+
+        <div class="hud-pill" id="hud-pill" title="Progreso de exploración" aria-label="Progreso de exploración">
+          <span class="hud-radar-dot"></span>
+          <span class="hud-text" id="hud-progress-text">0%</span>
+        </div>
+
+        <button class="quest-trigger-btn" id="quest-trigger" type="button" aria-label="Misión de descubrimiento: Protocolo Núcleo" title="Protocolo Núcleo">
+          <span class="quest-pulse-dot" aria-hidden="true"></span>
+          <span class="quest-label">Núcleo</span>
+          <span class="quest-counter" id="quest-nav-counter">0/5</span>
+        </button>
+
+        <button class="terminal-trigger-btn" id="terminal-trigger" type="button" aria-label="Abrir terminal CLI interactiva">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+          <span>CLI</span>
+        </button>
+
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar modo de color" aria-pressed="false">
+          <span class="theme-indicator-dot" aria-hidden="true"></span>
+          <span data-theme-label>Día</span>
+        </button>
+
+        <label class="language-picker">
+          <span class="visually-hidden">Idioma</span>
+          <select id="language-select" aria-label="Seleccionar idioma">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="inicio">
+      <div class="hero-orb hero-orb--a" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb--b" aria-hidden="true"></div>
+
+      <div class="container hero-grid">
+        <div class="profile-container hero-anim" style="--i: 0">
+          <div class="profile-card">
+            <img src="../assets/img/Hnk.jpeg" alt="Fotografía profesional de Henrik Anderson Oloroso García" class="profile-img" width="290" height="350" fetchpriority="high">
+          </div>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-badge-role hero-anim" style="--i: 1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            <span data-i18n="heroRole">Técnico en desarrollo de Software</span>
+            <button type="button" class="core-node" data-node-id="node-hero" aria-label="Descifrar Nodo 01: Arquitectura" title="Descifrar Fragmento de Datos 01">
+              <span class="core-node-pulse" aria-hidden="true"></span>
+              <span class="core-node-icon" aria-hidden="true">◆</span>
+              <span class="core-node-num">01</span>
+            </button>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="line"><span>Henrik Anderson</span></span>
+            <span class="line"><span class="title-accent">Oloroso García</span></span>
+          </h1>
+
+          <p class="hero-description hero-anim" style="--i: 2" data-i18n="heroDescription">
+            Enfocado en el desarrollo de APIs REST, modelado y normalización de bases de datos relacionales, contenerización con Docker, Prompt Engineering y automatización de procesos. Con proyección hacia soluciones de software escalables y ciberseguridad.
+          </p>
+
+          <div class="hero-actions hero-anim" style="--i: 3">
+            <a href="#proyectos" class="btn btn-primary" data-magnetic="0.25">
+              <span>Explorar Proyectos</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="https://github.com/Anderson-Oloroso" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-magnetic="0.25">
+              <span>GitHub</span>
+            </a>
+            <a href="../assets/cv/CV_Personalizado_Henrik_Anderson_Oloroso.pdf" class="btn btn-secondary" data-magnetic="0.25" download>
+              <span>Descargar CV</span>
+            </a>
+          </div>
+
+          <div class="hero-quick-stack hero-anim" style="--i: 4">
+            <span class="quick-stack-label">Ecosistema:</span>
+            <span class="quick-tag">Node.js</span>
+            <span class="quick-tag">Express</span>
+            <span class="quick-tag">PostgreSQL</span>
+            <span class="quick-tag">MySQL</span>
+            <span class="quick-tag">Docker</span>
+            <span class="quick-tag">Python</span>
+            <span class="quick-tag">n8n</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section class="section-padding" id="sobre-mi">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Trayectoria &amp; Enfoque</span>
+          <h2 class="section-title">Perfil Profesional</h2>
+          <p class="section-desc">Desarrollo metódico orientado a resolver requerimientos reales con código limpio y mantenible.</p>
+        </div>
+
+        <div class="about-card-wrapper">
+          <article class="about-main-text">
+            <h3>¿Quién soy?</h3>
+            <p>
+              Soy <strong>Técnico en desarrollo de software</strong>, curioso, resiliente y apasionado por la tecnología. Mi enfoque de trabajo abarca desde el diseño y estructuración de APIs REST y lógica de negocio en backend, hasta la arquitectura, normalización y optimización de bases de datos relacionales, contenerización con Docker y automatización de procesos.
+            </p>
+            <p>
+              Cuento con experiencia en el diagnóstico y mantenimiento de sistemas, gestión de inventarios y registros digitales, complementado con un nivel de <strong>Inglés C1</strong> para comunicación técnica fluida y una sólida proyección hacia la <strong>ciberseguridad</strong> y soluciones de software escalables.
+            </p>
+          </article>
+
+          <div class="about-specs">
+            <div class="spec-box">
+              <div class="spec-box-header">
+                <h4 class="spec-title">Desarrollo de Software &amp; APIs</h4>
+              </div>
+              <p class="spec-desc">Construcción de APIs REST modulares con Node.js y Express, asincronía, middlewares y validación robusta de solicitudes.</p>
+            </div>
+
+            <div class="spec-box">
+              <div class="spec-box-header">
+                <h4 class="spec-title">Modelado &amp; Persistencia SQL</h4>
+              </div>
+              <p class="spec-desc">Diseño de esquemas relacionales, normalización, consultas optimizadas, procedimientos almacenados y PL/pgSQL en PostgreSQL y MySQL.</p>
+            </div>
+
+            <div class="spec-box">
+              <div class="spec-box-header">
+                <h4 class="spec-title">Automatización &amp; DevOps</h4>
+              </div>
+              <p class="spec-desc">Contenedores con Docker, flujos de automatización con n8n, webhooks e integración de Prompt Engineering.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCIA LABORAL -->
+    <section class="section-padding" id="experiencia">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Trayectoria profesional</span>
+          <h2 class="section-title">Experiencia laboral</h2>
+          <p class="section-desc">Experiencia en desarrollo backend, gestión ágil y soporte técnico.</p>
+        </div>
+
+        <div class="experience-list" id="experience-list"></div>
+      </div>
+    </section>
+
+    <!-- CONOCIMIENTOS ADQUIRIDOS Y HERRAMIENTAS USADAS -->
+    <section class="section-padding" id="conocimientos">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Tecnologías &amp; Dominio</span>
+          <h2 class="section-title">Conocimientos adquiridos y herramientas usadas</h2>
+          <p class="section-desc">Stack tecnológico y herramientas aplicadas en proyectos de desarrollo y producción.</p>
+        </div>
+
+        <div class="stack-section-container" id="stack-section-container"></div>
+
+        <div class="soft-competencies-grid">
+          <div class="soft-comp-item">
+            <span class="soft-comp-dot"></span>
+            <span>Resolución de problemas complejos y pensamiento analítico</span>
+          </div>
+          <div class="soft-comp-item">
+            <span class="soft-comp-dot"></span>
+            <span>Trabajo colaborativo y comunicación efectiva</span>
+          </div>
+          <div class="soft-comp-item">
+            <span class="soft-comp-dot"></span>
+            <span>Adaptabilidad rápida a nuevas tecnologías</span>
+          </div>
+          <div class="soft-comp-item">
+            <span class="soft-comp-dot"></span>
+            <span>Inglés Nivel C1 (Avanzado / Técnico)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROYECTOS DESTACADOS -->
+    <section class="section-padding" id="proyectos">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Repositorios &amp; Código</span>
+          <h2 class="section-title">Proyectos Destacados</h2>
+          <p class="section-desc">Aplicaciones desarrolladas con buenas prácticas de software y código en GitHub.</p>
+        </div>
+
+        <div class="project-filters-container" role="toolbar" aria-label="Filtros por categoría de proyecto">
+          <button type="button" class="project-filter-btn active" data-filter="all" aria-pressed="true">Todos</button>
+          <button type="button" class="project-filter-btn" data-filter="backend" aria-pressed="false">Backend &amp; APIs</button>
+          <button type="button" class="project-filter-btn" data-filter="databases" aria-pressed="false">Bases de Datos &amp; SQL</button>
+          <button type="button" class="project-filter-btn" data-filter="devops" aria-pressed="false">DevOps &amp; Automatización</button>
+          <button type="button" class="project-filter-btn" data-filter="cli" aria-pressed="false">CLI &amp; Python</button>
+        </div>
+
+        <div class="projects-grid" id="projects-grid"></div>
+
+        <div class="projects-footer-cta">
+          <a href="https://github.com/Anderson-Oloroso?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            <span>Ver más proyectos en GitHub</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MI VIDA FUERA DEL CÓDIGO -->
+    <section class="section-padding" id="vida">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-header-inline">
+            <span class="section-badge">Más allá del software</span>
+            <button type="button" class="core-node" data-node-id="node-hobby" aria-label="Descifrar Nodo 04: Automatización &amp; Vida" title="Descifrar Fragmento de Datos 04">
+              <span class="core-node-pulse" aria-hidden="true"></span>
+              <span class="core-node-icon" aria-hidden="true">◆</span>
+              <span class="core-node-num">04</span>
+            </button>
+          </div>
+          <h2 class="section-title">Mi vida fuera del código</h2>
+          <p class="section-desc">También disfruto de actividades que me conectan con las personas, la naturaleza y nuevos retos.</p>
+        </div>
+
+        <div class="hobby-spotlight" id="hobby-spotlight">
+          <div class="hobby-spotlight-bg" id="hobby-spotlight-bg"></div>
+          <div class="hobby-spotlight-scrim"></div>
+          <div class="hobby-spotlight-content">
+            <div class="hobby-spotlight-meta">
+              <span class="hobby-tag-badge" id="hobby-spotlight-tag">Deporte &amp; Sincronización</span>
+              <span class="hobby-counter" id="hobby-spotlight-counter">1 / 8</span>
+            </div>
+            <h3 class="hobby-spotlight-title" id="hobby-spotlight-title">Futsal</h3>
+            <p class="hobby-spotlight-story" id="hobby-spotlight-story">
+              Espacios dinámicos, toma de decisiones rápida y trabajo en equipo.
+            </p>
+            <div class="hobby-spotlight-controls">
+              <button type="button" class="hobby-nav-btn prev" id="hobby-prev-btn" aria-label="Hobby anterior">&larr;</button>
+              <div class="hobby-dots-indicator" id="hobby-dots-indicator"></div>
+              <button type="button" class="hobby-nav-btn next" id="hobby-next-btn" aria-label="Siguiente hobby">&rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="hobbies-grid" id="hobbies-grid" role="tablist" aria-label="Intereses personales"></ul>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section-padding" id="contacto">
+      <div class="container contact-wrapper">
+        <div class="section-header">
+          <span class="section-badge">Canales Directos</span>
+          <h2 class="section-title">Información de Contacto</h2>
+          <p class="section-desc">Disponible para oportunidades laborales, colaboraciones y proyectos de software.</p>
+        </div>
+
+        <div class="contact-cards-grid">
+          <a href="mailto:o.and871@gmail.com" class="contact-tile">
+            <span class="contact-tile-type">Correo</span>
+            <span class="contact-tile-value">o.and871@gmail.com</span>
+          </a>
+          <a href="https://linkedin.com/in/Anderson-oloroso" target="_blank" rel="noopener noreferrer" class="contact-tile">
+            <span class="contact-tile-type">LinkedIn</span>
+            <span class="contact-tile-value">Anderson Oloroso</span>
+          </a>
+          <a href="https://github.com/Anderson-Oloroso" target="_blank" rel="noopener noreferrer" class="contact-tile">
+            <span class="contact-tile-type">GitHub</span>
+            <span class="contact-tile-value">Anderson-Oloroso</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p class="footer-author">Henrik Anderson Oloroso García</p>
+      <p>Técnico en desarrollo de software &bull; Código estructurado con HTML5, CSS3 y Vanilla JavaScript</p>
+      <p>&copy; 2026 Todos los derechos reservados &bull; <span class="footer-highlight">GitHub Pages</span></p>
+    </div>
+  </footer>
+
+  <!-- MODAL DE INSPECCIÓN DE ARQUITECTURA -->
+  <div class="project-inspector-modal" id="project-inspector-modal" aria-hidden="true" role="dialog" aria-labelledby="inspector-title">
+    <div class="project-inspector-backdrop" id="project-inspector-backdrop"></div>
+    <div class="project-inspector-dialog">
+      <div class="project-inspector-header">
+        <div class="inspector-header-left">
+          <span class="inspector-badge" id="inspector-badge">Proyecto</span>
+          <h3 class="inspector-modal-title" id="inspector-title">Proyecto</h3>
+        </div>
+        <button type="button" class="inspector-close-btn" id="project-inspector-close" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="project-inspector-body">
+        <div class="inspector-hero-banner">
+          <img src="" alt="" id="inspector-img">
+        </div>
+        <p class="inspector-block-desc" id="inspector-overview"></p>
+        <p class="inspector-block-desc" id="inspector-arch"></p>
+        <div class="inspector-tags-container" id="inspector-tags"></div>
+      </div>
+      <div class="project-inspector-footer">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="inspector-repo-link">Ver Repositorio</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMINAL CLI -->
+  <div class="dev-terminal-modal" id="dev-terminal-modal" aria-hidden="true" role="dialog" aria-labelledby="terminal-title">
+    <div class="dev-terminal-backdrop" id="dev-terminal-backdrop"></div>
+    <div class="dev-terminal-window">
+      <div class="dev-terminal-header">
+        <span class="dev-terminal-title" id="terminal-title">henrik@dev-box: ~/portfolio</span>
+        <button type="button" class="terminal-header-close" id="terminal-header-close" aria-label="Cerrar terminal">&times;</button>
+      </div>
+      <div class="dev-terminal-body" id="dev-terminal-output" tabindex="0"></div>
+      <div class="dev-terminal-prompt-line">
+        <span class="terminal-prompt-sym">guest@henrik-portfolio:~$</span>
+        <input type="text" id="terminal-input" class="terminal-input" autocomplete="off" spellcheck="false" placeholder="Escribe 'help', 'stack' o 'projects'...">
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PROTOCOLO NÚCLEO -->
+  <div class="quest-modal" id="quest-modal" aria-hidden="true" role="dialog" aria-labelledby="quest-modal-title">
+    <div class="quest-backdrop" id="quest-backdrop"></div>
+    <div class="quest-window">
+      <div class="quest-header">
+        <h3 class="quest-modal-title" id="quest-modal-title">Protocolo Núcleo: Archivos del Desarrollador</h3>
+        <button type="button" class="quest-close-btn" id="quest-modal-close" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="quest-body">
+        <p class="quest-subtitle">Desencripta los 5 nodos de datos ocultos en el portafolio.</p>
+        <div class="quest-progress-box">
+          <div class="quest-progress-header">
+            <span>Progreso de Desencriptación</span>
+            <span id="quest-progress-val">0% (0/5)</span>
+          </div>
+          <div class="quest-progress-track">
+            <div class="quest-progress-fill" id="quest-progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="quest-nodes-grid" id="quest-nodes-grid"></div>
+        <div class="quest-dossier-panel" id="quest-dossier-panel">
+          <span class="dossier-status-tag" id="dossier-status-tag">[SELECCIONA UN NODO]</span>
+          <h4 class="dossier-node-title" id="dossier-node-title">Detalles del Fragmento</h4>
+          <p class="dossier-node-desc" id="dossier-node-desc">Haz clic en cualquier nodo para inspeccionar su estado.</p>
+        </div>
+      </div>
+      <div class="quest-footer">
+        <button type="button" class="quest-reset-link" id="quest-reset-btn">Reiniciar Misión</button>
+        <button type="button" class="btn btn-secondary" id="quest-footer-close">Cerrar Protocolo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="quest-toast" id="quest-toast" role="status" aria-live="polite">
+    <div class="quest-toast-content">
+      <div class="quest-toast-tag" id="quest-toast-tag">NODO DESENCRIPTADO</div>
+      <h4 class="quest-toast-title" id="quest-toast-title">Título</h4>
+      <p class="quest-toast-lore" id="quest-toast-lore">Detalle</p>
+    </div>
+  </div>
+
+  <script src="js/vendor/anime.min.js"></script>
+  <script type="module" src="js/core/app.js"></script>
+</body>
+</html>
