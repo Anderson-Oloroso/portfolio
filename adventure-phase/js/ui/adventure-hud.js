@@ -1,11 +1,15 @@
 import { initThemeManager } from '../../../shared/js/theme-manager.js';
-import { LEVELS_CONFIG } from '../../data/levels-config.js';
+import { LEVELS_CONFIG, DIFFICULTY_CONFIGS } from '../../data/levels-config.js';
 import { AdventureGameEngine } from '../core/game-loop.js';
 import { createInputHandler } from '../core/input-handler.js';
 import { createStationModal } from './station-modal.js';
+import { GdSynthAudio } from '../audio/gd-synth-audio.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const themeBtn = document.getElementById('adv-theme-toggle');
+  const audioBtn = document.getElementById('adv-audio-toggle');
+  const audioLabel = document.getElementById('adv-audio-label');
+  const difficultySelector = document.getElementById('adv-difficulty-selector');
   const canvas = document.getElementById('gd-canvas');
   const levelSelector = document.getElementById('adv-level-selector');
   const levelCodeEl = document.getElementById('adv-level-code');
@@ -21,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.getElementById('adv-btn-restart');
 
   initThemeManager(themeBtn);
+  const synthAudio = new GdSynthAudio();
 
   if (levelSelector) {
     levelSelector.innerHTML = LEVELS_CONFIG.map(
@@ -39,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
   engine = new AdventureGameEngine({
     canvas,
     levels: LEVELS_CONFIG,
-    onLevelChange: (level, idx) => {
+    onJumpSound: (isOrb) => synthAudio.playJumpSfx(isOrb),
+    onLevelChange: (level, idx, diff = DIFFICULTY_CONFIGS.medium) => {
       if (levelCodeEl) levelCodeEl.textContent = level.code;
       if (levelNameEl) levelNameEl.textContent = level.name;
       if (levelSelector) levelSelector.value = String(idx);
@@ -47,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (backdropKicker) backdropKicker.textContent = level.kicker;
       if (backdropTitle) backdropTitle.textContent = level.name;
       if (backdropSub) backdropSub.textContent = level.backdropSub;
+      synthAudio.setStage(level.trackIndex ?? idx, diff.tempoScale);
     },
     onProgress: (pct, statusText) => {
       if (pctEl) pctEl.textContent = `${pct}%`;
@@ -55,6 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     onReachStation: (level, idx, total) => {
       stationModal.open(level, idx, total);
+    }
+  });
+
+  difficultySelector?.addEventListener('change', (e) => {
+    const diffKey = e.target.value || 'medium';
+    engine.setDifficulty(diffKey);
+    engine.restartCurrentLevel();
+  });
+
+  audioBtn?.addEventListener('click', () => {
+    const nextState = !synthAudio.enabled;
+    synthAudio.setEnabled(nextState);
+    audioBtn.setAttribute('aria-pressed', String(!nextState));
+    if (audioLabel) {
+      audioLabel.textContent = nextState ? 'Audio: ON' : 'Audio: OFF';
     }
   });
 
@@ -73,6 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas,
     jumpBtn,
     onJump: () => {
+      synthAudio.ensureContext();
+      if (synthAudio.enabled && !synthAudio.timerId) {
+        synthAudio.startLoop();
+      }
       if (!stationModal.isOpen) {
         engine.jump();
       }
