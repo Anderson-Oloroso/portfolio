@@ -4,7 +4,7 @@
 
 ---
 
-## 🗂️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 portfolio/
@@ -82,9 +82,9 @@ portfolio/
 
 ---
 
-## 🚀 Características Principales
+## Características Principales
 
-### 🎨 Visual & Efectos
+### Visual & Efectos
 | Característica | Descripción |
 |---|---|
 | **Cursor personalizado** | Punto + anillo + glow con efecto de inercia. Cambia estado al hover sobre links, cards y al hacer clic |
@@ -92,13 +92,13 @@ portfolio/
 | **Fondo de grilla** | Grid sutil CSS que refuerza la estética "tech" |
 | **Tema Sol/Luna** | Alternador oscuro/claro con transición suave y persistencia en `localStorage` |
 
-### 🌐 Internacionalización (ES/EN)
+### Internacionalización (ES/EN)
 - Selector de idioma en el navbar
 - Textos en `data-i18n` actualizados vía `i18n-manager.js`
 - Datos localizados en `portfolio-data.js` (stack, hobbies, experiencia)
 - El Protocolo Núcleo muestra etiquetas y detalles en el idioma activo
 
-### 🗺️ Protocolo Núcleo (Discovery Quest)
+### Protocolo Núcleo (Discovery Quest)
 Sistema de gamificación con **5 nodos ocultos** distribuidos en la página estática:
 
 | Nodo | ID | Ubicación |
@@ -115,25 +115,25 @@ Sistema de gamificación con **5 nodos ocultos** distribuidos en la página est�
 - El modal muestra progreso, dossier del nodo seleccionado y opción de reiniciar
 - El estado visual de los nodos persiste durante la sesión
 
-### 📁 Proyectos
+### Proyectos
 - Tarjetas con imagen de miniatura, badge de categoría y tags de tecnología
 - Filtrado por categoría: Backend, Bases de Datos, DevOps, CLI/Python
 - Modal "Ver Arquitectura" con descripción técnica detallada e imagen del proyecto
 - Iconos de tecnología con Devicons, SimpleIcons y SVGs locales
 
-### 🎯 Mi vida fuera del código
+### Mi vida fuera del código
 - Carrusel de 8 hobbies con **imagen de fondo real** (`assets/img/hobbies/`)
 - Fondo del spotlight actualiza con la foto del hobby activo (efecto parallax leve)
 - Avance automático cada 6 segundos (se pausa al hacer hover)
 - Navegación por clic, flechas, dots o teclado (`ArrowLeft`/`ArrowRight`)
 - Story y tag localizados (ES/EN)
 
-### 💬 Terminal CLI
+### Terminal CLI
 Terminal interactiva con comandos: `help`, `stack`, `projects`, `about`, `contact`, `clear`
 
 ---
 
-## 🛠️ Stack Técnico del Portafolio
+## Stack Técnico del Portafolio
 
 | Área | Tecnología |
 |---|---|
@@ -147,7 +147,7 @@ Terminal interactiva con comandos: `help`, `stack`, `projects`, `about`, `contac
 
 ---
 
-## ⚙️ Configuración y Personalización
+## Configuración y Personalización
 
 ### Agregar o editar proyectos
 Edita el array `projects` en [`shared/data/portfolio-data.js`](shared/data/portfolio-data.js):
@@ -182,7 +182,7 @@ En `shared/data/portfolio-data.js`, agrega una entrada en `TECH_ICONS`:
 
 ---
 
-## 📦 Fases del Portafolio
+## Fases del Portafolio
 
 ### Hub (`index.html`)
 Portal de navegación con canvas 3D y acceso a las dos fases.
@@ -203,7 +203,7 @@ Runner de plataformas donde cada estación es un proyecto del portafolio. Incluy
 
 ---
 
-## 📋 Convenciones
+## Convenciones
 
 - **Ramas Git**: `develop` para desarrollo activo → `main` para producción/GitHub Pages
 - **Imágenes**: Fotos propias en `assets/img/`, imágenes de proyectos en Unsplash o locales
@@ -212,7 +212,7 @@ Runner de plataformas donde cada estación es un proyecto del portafolio. Incluy
 
 ---
 
-## 👤 Autor
+## Autor
 
 **Henrik Anderson Oloroso García**  
 Técnico en desarrollo de Software  
