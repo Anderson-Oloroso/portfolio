@@ -1,13 +1,6 @@
 /**
- * Renders distinct, detailed Geometry Dash style obstacles & platforms per level theme:
- * - 'tech-cube': Circuit-etched cube with glowing tech emblem
- * - 'server-rack': Monolithic server tower with blinking status LEDs
- * - 'data-bridge': Suspended neon beam platform
- * - 'stepped-rect': Multi-tier deployment module
- * - 'neon-saw': Rotating 12-tooth gear blade
- * - 'crystal-spike': Sharp neon spike with inner energy core
- * - 'cloud': Multi-puff volumetric sky cloud platform
- * - 'jump-orb': Pulsing mid-air jump ring
+ * Renders level obstacles & platforms with diffused bases so ground/platform bases
+ * blend softly into the stage while preserving crisp top/foreground clarity.
  */
 export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
   const yOffset = obs.yOffset || 0;
@@ -17,6 +10,16 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
   const secondary = level.secondaryColor || '#06b6d4';
 
   ctx.save();
+
+  // Diffused base aura under every obstacle/platform
+  ctx.save();
+  ctx.filter = 'blur(8px)';
+  ctx.globalAlpha = 0.36;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.roundRect(screenX - 4, bottomY - 6, obs.w + 8, 12, 6);
+  ctx.fill();
+  ctx.restore();
 
   if (obs.shape === 'jump-orb') {
     const cx = screenX + obs.w / 2;
@@ -46,7 +49,7 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.translate(cx, cy);
     ctx.rotate(timeSec * 5.2);
 
-    ctx.fillStyle = 'rgba(17, 20, 29, 0.95)';
+    ctx.fillStyle = 'rgba(17, 20, 29, 0.88)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.shadowColor = color;
@@ -65,7 +68,6 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.fill();
     ctx.stroke();
 
-    // Inner core ring
     ctx.shadowBlur = 0;
     ctx.strokeStyle = secondary;
     ctx.beginPath();
@@ -73,7 +75,7 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.stroke();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   } else if (obs.shape === 'crystal-spike') {
-    ctx.fillStyle = 'rgba(17, 20, 29, 0.95)';
+    ctx.fillStyle = 'rgba(17, 20, 29, 0.88)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2.2;
     ctx.shadowColor = color;
@@ -87,7 +89,6 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.fill();
     ctx.stroke();
 
-    // Inner shard highlight
     ctx.shadowBlur = 0;
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
     ctx.lineWidth = 1.2;
@@ -97,7 +98,7 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.lineTo(screenX + obs.w * 0.72, bottomY - 4);
     ctx.stroke();
   } else if (obs.shape === 'cloud') {
-    ctx.fillStyle = 'rgba(23, 27, 38, 0.95)';
+    ctx.fillStyle = 'rgba(23, 27, 38, 0.86)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.shadowColor = color;
@@ -109,7 +110,6 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.fill();
     ctx.stroke();
 
-    // Upper cloud puffs
     ctx.shadowBlur = 0;
     ctx.beginPath();
     ctx.arc(screenX + obs.w * 0.32, topY + 10, r * 0.65, Math.PI, 0);
@@ -117,24 +117,26 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.fill();
     ctx.stroke();
 
-    // Safe landing top highlight
     ctx.fillStyle = secondary;
     ctx.fillRect(screenX + 12, topY + 7, obs.w - 24, 3);
   } else if (obs.shape === 'data-bridge') {
-    ctx.fillStyle = 'rgba(17, 20, 29, 0.94)';
+    // Diffused lower base edge on suspended platform
+    ctx.save();
+    ctx.filter = 'blur(5px)';
+    ctx.globalAlpha = 0.42;
+    ctx.fillStyle = color;
+    ctx.fillRect(screenX, bottomY - 5, obs.w, 6);
+    ctx.restore();
+
+    ctx.fillStyle = 'rgba(17, 20, 29, 0.85)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 10;
     ctx.fillRect(screenX, topY, obs.w, obs.h);
     ctx.strokeRect(screenX, topY, obs.w, obs.h);
 
-    // Top landing rail
-    ctx.shadowBlur = 0;
     ctx.fillStyle = secondary;
     ctx.fillRect(screenX + 2, topY, obs.w - 4, 4);
 
-    // Truss diagonal details
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
     ctx.lineWidth = 1;
     for (let tx = screenX + 12; tx < screenX + obs.w - 12; tx += 22) {
@@ -144,16 +146,12 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
       ctx.stroke();
     }
   } else if (obs.shape === 'server-rack') {
-    ctx.fillStyle = 'rgba(17, 20, 29, 0.96)';
+    ctx.fillStyle = 'rgba(17, 20, 29, 0.88)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 12;
     ctx.fillRect(screenX, topY, obs.w, obs.h);
     ctx.strokeRect(screenX, topY, obs.w, obs.h);
 
-    // Server blades & blinking LEDs
-    ctx.shadowBlur = 0;
     const rows = Math.max(2, Math.floor(obs.h / 16));
     for (let r = 0; r < rows; r++) {
       const ry = topY + 7 + r * 14;
@@ -166,11 +164,9 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
       ctx.fillRect(screenX + 10, ry + 3, 4, 3);
     }
   } else if (obs.shape === 'stepped-rect') {
-    ctx.fillStyle = 'rgba(17, 20, 29, 0.95)';
+    ctx.fillStyle = 'rgba(17, 20, 29, 0.88)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 12;
 
     const leftW = obs.w * 0.44;
     const rightW = obs.w * 0.56;
@@ -180,26 +176,19 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     ctx.fillRect(screenX + leftW, topY, rightW, obs.h);
     ctx.strokeRect(screenX + leftW, topY, rightW, obs.h);
 
-    ctx.shadowBlur = 0;
     ctx.fillStyle = secondary;
     ctx.fillRect(screenX + leftW + 2, topY, rightW - 4, 3);
   } else {
-    // 'tech-cube' with circuit lines & glowing icon emblem
-    ctx.fillStyle = 'rgba(17, 20, 29, 0.96)';
+    ctx.fillStyle = 'rgba(17, 20, 29, 0.88)';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2.4;
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 15;
     ctx.fillRect(screenX, topY, obs.w, obs.h);
     ctx.strokeRect(screenX, topY, obs.w, obs.h);
 
-    // Circuit corners
-    ctx.shadowBlur = 0;
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
     ctx.lineWidth = 1.2;
     ctx.strokeRect(screenX + 5, topY + 5, obs.w - 10, obs.h - 10);
 
-    // Center tech emblem
     if (obs.iconText) {
       ctx.fillStyle = color;
       ctx.font = '800 13px "Fira Code", monospace';
@@ -210,9 +199,7 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
     }
   }
 
-  // Floating label & score above obstacle
   if (obs.label) {
-    ctx.shadowBlur = 0;
     ctx.textAlign = 'center';
     ctx.font = '700 11px "Fira Code", monospace';
     ctx.fillStyle = '#f3f4f6';
@@ -220,7 +207,6 @@ export function drawObstacle(ctx, obs, screenX, groundY, level, timeSec = 0) {
   }
 
   if (obs.points) {
-    ctx.shadowBlur = 0;
     ctx.textAlign = 'center';
     ctx.font = '700 10px "Fira Code", monospace';
     ctx.fillStyle = color;
