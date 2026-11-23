@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DAWN GIANT BACKDROP TYPOGRAPHY WITH DIFFUSED BASE
+   CYBERPUNK FULL-SCREEN LEVEL PALETTES & RETRO DAWN TYPOGRAPHY
    ========================================================================== */
 
 .adv-backdrop-layer {
@@ -10,131 +10,174 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 2rem 5.5rem;
+  padding: 1.5rem 2rem 5rem;
   text-align: center;
   pointer-events: none;
   user-select: none;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 75% 45% at 50% 82%, rgba(245, 158, 11, 0.22), transparent 65%),
-    radial-gradient(circle at 22% 24%, rgba(59, 130, 246, 0.24), transparent 52%),
-    radial-gradient(circle at 78% 68%, rgba(6, 182, 212, 0.2), transparent 56%),
-    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 60%, var(--bg-elevated) 100%);
-  transition: background 0.55s var(--ease-smooth);
+
+  --stage-bg-top: #03091a;
+  --stage-bg-bottom: #061838;
+  --stage-neon: #00d9ff;
+  --stage-neon-alt: #38bdf8;
+  --stage-stroke: rgba(0, 217, 255, 0.72);
+
+  background: linear-gradient(180deg, var(--stage-bg-top) 0%, var(--stage-bg-bottom) 100%);
+  transition: background 0.35s ease;
 }
 
-/* Subtle CRT scanlines */
+/* Subtle retro CRT grid lines */
 .adv-backdrop-layer::after {
   content: "";
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.022) 0px,
-    rgba(255, 255, 255, 0.022) 1px,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
     transparent 1px,
     transparent 4px
   );
   pointer-events: none;
 }
 
+/* Level 01: Electric Blue Cyberpunk */
 .adv-backdrop-layer[data-gradient="profile"] {
-  background:
-    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(6, 182, 212, 0.26), transparent 65%),
-    radial-gradient(circle at 24% 26%, rgba(59, 130, 246, 0.26), transparent 54%),
-    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+  --stage-bg-top: #020817;
+  --stage-bg-bottom: #041d47;
+  --stage-neon: #00e5ff;
+  --stage-neon-alt: #3b82f6;
+  --stage-stroke: rgba(0, 229, 255, 0.78);
 }
 
+/* Level 02: Matrix Green */
 .adv-backdrop-layer[data-gradient="experience"] {
-  background:
-    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(16, 185, 129, 0.25), transparent 65%),
-    radial-gradient(circle at 24% 25%, rgba(59, 130, 246, 0.22), transparent 54%),
-    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+  --stage-bg-top: #010f06;
+  --stage-bg-bottom: #042912;
+  --stage-neon: #00ff66;
+  --stage-neon-alt: #22c55e;
+  --stage-stroke: rgba(0, 255, 102, 0.78);
 }
 
+/* Level 03: Cyberpunk Purple */
 .adv-backdrop-layer[data-gradient="stack"] {
-  background:
-    radial-gradient(ellipse 80% 45% at 50% 84%, rgba(6, 182, 212, 0.32), transparent 65%),
-    radial-gradient(circle at 20% 24%, rgba(139, 92, 246, 0.24), transparent 55%),
-    radial-gradient(circle at 80% 28%, rgba(59, 130, 246, 0.24), transparent 55%),
-    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-elevated) 100%);
+  --stage-bg-top: #0b0219;
+  --stage-bg-bottom: #210642;
+  --stage-neon: #c026ff;
+  --stage-neon-alt: #00f0ff;
+  --stage-stroke: rgba(192, 38, 255, 0.82);
 }
 
+/* Level 04: Cyber Orange */
 .adv-backdrop-layer[data-gradient="projects"] {
-  background:
-    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(245, 158, 11, 0.26), transparent 65%),
-    radial-gradient(circle at 80% 30%, rgba(6, 182, 212, 0.2), transparent 56%),
-    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+  --stage-bg-top: #140600;
+  --stage-bg-bottom: #381100;
+  --stage-neon: #ff6a00;
+  --stage-neon-alt: #ffb703;
+  --stage-stroke: rgba(255, 106, 0, 0.82);
 }
 
+/* Level 05: Neon Violet / Magenta */
 .adv-backdrop-layer[data-gradient="life"] {
-  background:
-    radial-gradient(ellipse 75% 42% at 50% 84%, rgba(245, 158, 11, 0.24), rgba(139, 92, 246, 0.22) 45%, transparent 68%),
-    linear-gradient(180deg, var(--bg-app) 0%, var(--bg-surface) 100%);
+  --stage-bg-top: #120214;
+  --stage-bg-bottom: #320538;
+  --stage-neon: #ff2a85;
+  --stage-neon-alt: #a855f7;
+  --stage-stroke: rgba(255, 42, 133, 0.8);
+}
+
+/* Light theme keeps vibrant screen shift while preserving high readability */
+:root[data-theme="light"] .adv-backdrop-layer[data-gradient="profile"] {
+  --stage-bg-top: #dbeafe;
+  --stage-bg-bottom: #93c5fd;
+  --stage-neon: #0284c7;
+  --stage-neon-alt: #1d4ed8;
+  --stage-stroke: rgba(2, 132, 199, 0.72);
+}
+
+:root[data-theme="light"] .adv-backdrop-layer[data-gradient="experience"] {
+  --stage-bg-top: #dcfce7;
+  --stage-bg-bottom: #86efac;
+  --stage-neon: #059669;
+  --stage-neon-alt: #15803d;
+  --stage-stroke: rgba(5, 150, 105, 0.72);
+}
+
+:root[data-theme="light"] .adv-backdrop-layer[data-gradient="stack"] {
+  --stage-bg-top: #f3e8ff;
+  --stage-bg-bottom: #d8b4fe;
+  --stage-neon: #9333ea;
+  --stage-neon-alt: #0891b2;
+  --stage-stroke: rgba(147, 51, 234, 0.72);
+}
+
+:root[data-theme="light"] .adv-backdrop-layer[data-gradient="projects"] {
+  --stage-bg-top: #ffedd5;
+  --stage-bg-bottom: #fdba74;
+  --stage-neon: #ea580c;
+  --stage-neon-alt: #d97706;
+  --stage-stroke: rgba(234, 88, 12, 0.72);
+}
+
+:root[data-theme="light"] .adv-backdrop-layer[data-gradient="life"] {
+  --stage-bg-top: #fce7f3;
+  --stage-bg-bottom: #f9a8d4;
+  --stage-neon: #db2777;
+  --stage-neon-alt: #7e22ce;
+  --stage-stroke: rgba(219, 39, 119, 0.72);
 }
 
 .adv-backdrop-kicker {
   position: relative;
   z-index: 1;
   font-family: var(--font-mono);
-  font-size: clamp(0.8rem, 1.5vw, 1rem);
-  font-weight: 700;
+  font-size: clamp(0.82rem, 1.5vw, 1rem);
+  font-weight: 800;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--accent-cyan);
-  margin-bottom: 0.75rem;
+  color: var(--stage-neon);
+  text-shadow: 0 0 14px var(--stage-neon);
+  margin-bottom: 0.7rem;
 }
 
 .adv-backdrop-title {
   position: relative;
   z-index: 1;
-  max-width: 16ch;
+  max-width: 15ch;
   font-family: var(--font-mono);
-  font-size: clamp(3.6rem, 11.5vw, 9.5rem);
+  font-size: clamp(3.8rem, 11.5vw, 9.6rem);
   font-weight: 900;
-  line-height: 0.92;
-  letter-spacing: 0.04em;
+  line-height: 0.94;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: transparent;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.65) 0%,
-    rgba(6, 182, 212, 0.44) 48%,
-    rgba(245, 158, 11, 0.24) 76%,
-    rgba(59, 130, 246, 0.04) 100%
+    #ffffff 0%,
+    var(--stage-neon) 46%,
+    var(--stage-neon-alt) 78%,
+    rgba(255, 255, 255, 0.08) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-stroke: 1.5px rgba(6, 182, 212, 0.36);
+  -webkit-text-stroke: 1.6px var(--stage-stroke);
+  filter: drop-shadow(0 0 18px var(--stage-stroke));
 
-  /* Dawn base fade directly across the giant letters */
+  /* Smooth dawn fade on the lower base of the giant letters */
   -webkit-mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.92) 42%,
-    rgba(0, 0, 0, 0.36) 76%,
-    rgba(0, 0, 0, 0) 100%
+    rgba(0, 0, 0, 0.96) 52%,
+    rgba(0, 0, 0, 0.45) 82%,
+    rgba(0, 0, 0, 0.06) 100%
   );
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.92) 42%,
-    rgba(0, 0, 0, 0.36) 76%,
-    rgba(0, 0, 0, 0) 100%
+    rgba(0, 0, 0, 0.96) 52%,
+    rgba(0, 0, 0, 0.45) 82%,
+    rgba(0, 0, 0, 0.06) 100%
   );
-}
-
-:root[data-theme="light"] .adv-backdrop-title {
-  background: linear-gradient(
-    180deg,
-    rgba(23, 32, 51, 0.56) 0%,
-    rgba(37, 99, 235, 0.36) 52%,
-    rgba(245, 158, 11, 0.18) 80%,
-    rgba(37, 99, 235, 0.03) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-stroke: 1.5px rgba(37, 99, 235, 0.32);
 }
 
 .adv-backdrop-sub {
@@ -142,10 +185,10 @@
   z-index: 1;
   margin-top: 1rem;
   font-family: var(--font-mono);
-  font-size: clamp(0.75rem, 1.35vw, 0.95rem);
+  font-size: clamp(0.76rem, 1.3vw, 0.92rem);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  opacity: 0.72;
+  color: var(--stage-neon);
+  opacity: 0.88;
 }
