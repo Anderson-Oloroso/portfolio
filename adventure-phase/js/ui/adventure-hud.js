@@ -1,73 +1,126 @@
 import { initThemeManager } from '../../../shared/js/theme-manager.js';
-import { initCursor } from '../../../shared/js/cursor.js';
-import { initAmbientCanvas } from '../../../shared/js/ambient-canvas.js';
 import { LEVELS_CONFIG, DIFFICULTY_CONFIGS } from '../../data/levels-config.js';
 import { AdventureGameEngine } from '../core/game-loop.js';
 import { createInputHandler } from '../core/input-handler.js';
 import { createStationModal } from './station-modal.js';
 
-// 5 new original compositions (one per level) with bassline, lead melody, and synth pulse
-const STAGE_TRACKS = [
-  // Level 01 (Perfil): Midnight Grid — calm-yet-propulsive bass & fifths
+const LEVEL_SOUND_PRESETS = [
+  // Level 01: Electric blue pulse + deep sub
   {
-    bpm: 118,
+    bpm: 112,
+    filterFreq: 780,
+    delayTime: 0.24,
+    feedback: 0.24,
+    bassWave: 'sine',
+    synthWave: 'triangle',
+    bassFreqs: [110, 110, 146.83, 130.81],
+    pulseFreqs: [440, 0, 523.25, 659.25, 587.33, 0, 523.25, 440]
+  },
+  // Level 02: Matrix green filtered rhythm
+  {
+    bpm: 120,
+    filterFreq: 960,
+    delayTime: 0.19,
+    feedback: 0.22,
     bassWave: 'triangle',
-    leadWave: 'sine',
-    bassNotes: [110, 110, 146.83, 146.83, 164.81, 164.81, 146.83, 130.81],
-    leadNotes: [440, 523.25, 659.25, 587.33, 659.25, 783.99, 659.25, 523.25]
+    synthWave: 'sine',
+    bassFreqs: [123.47, 164.81, 146.83, 185.0],
+    pulseFreqs: [493.88, 587.33, 0, 739.99, 659.25, 587.33, 493.88, 0]
   },
-  // Level 02 (Experiencia): Pipeline Sync — groovy syncopated bass & staccato lead
+  // Level 03: Cyberpunk purple spatial delay
   {
-    bpm: 126,
-    bassWave: 'sawtooth',
-    leadWave: 'triangle',
-    bassNotes: [123.47, 185.0, 146.83, 220.0, 164.81, 246.94, 146.83, 123.47],
-    leadNotes: [493.88, 0, 587.33, 739.99, 659.25, 587.33, 493.88, 369.99]
+    bpm: 128,
+    filterFreq: 1180,
+    delayTime: 0.28,
+    feedback: 0.28,
+    bassWave: 'sine',
+    synthWave: 'triangle',
+    bassFreqs: [130.81, 196.0, 174.61, 196.0],
+    pulseFreqs: [523.25, 0, 783.99, 659.25, 880.0, 783.99, 0, 659.25]
   },
-  // Level 03 (Stack): Overclocked Cubes — bright retro arcade arpeggio
+  // Level 04: Cyber orange driving electronic pulse
   {
     bpm: 134,
-    bassWave: 'square',
-    leadWave: 'sawtooth',
-    bassNotes: [130.81, 130.81, 196.0, 196.0, 174.61, 174.61, 146.83, 196.0],
-    leadNotes: [523.25, 659.25, 783.99, 1046.5, 880.0, 783.99, 659.25, 587.33]
+    filterFreq: 1050,
+    delayTime: 0.17,
+    feedback: 0.2,
+    bassWave: 'triangle',
+    synthWave: 'sawtooth',
+    bassFreqs: [146.83, 146.83, 174.61, 196.0],
+    pulseFreqs: [587.33, 698.46, 880.0, 0, 783.99, 698.46, 587.33, 659.25]
   },
-  // Level 04 (Proyectos): Crimson Voltage — fast driving ostinato
+  // Level 05: Neon violet atmospheric electronic close
   {
-    bpm: 140,
-    bassWave: 'sawtooth',
-    leadWave: 'square',
-    bassNotes: [146.83, 146.83, 174.61, 220.0, 196.0, 174.61, 164.81, 146.83],
-    leadNotes: [587.33, 698.46, 880.0, 783.99, 698.46, 587.33, 659.25, 440.0]
-  },
-  // Level 05 (Más allá del código): Cloud Horizon — warm synthwave pad & bell plucks
-  {
-    bpm: 122,
+    bpm: 116,
+    filterFreq: 860,
+    delayTime: 0.3,
+    feedback: 0.26,
     bassWave: 'sine',
-    leadWave: 'triangle',
-    bassNotes: [130.81, 164.81, 196.0, 246.94, 220.0, 196.0, 164.81, 146.83],
-    leadNotes: [659.25, 783.99, 987.77, 880.0, 783.99, 659.25, 587.33, 523.25]
+    synthWave: 'sine',
+    bassFreqs: [130.81, 164.81, 196.0, 220.0],
+    pulseFreqs: [659.25, 0, 783.99, 987.77, 880.0, 0, 783.99, 659.25]
   }
 ];
 
-function createStageSynth() {
+function createElectronicStageAudio() {
   let ctx = null;
+  let masterGain = null;
+  let filterNode = null;
+  let delayNode = null;
+  let feedbackGain = null;
+
   let enabled = true;
-  let trackIndex = 0;
+  let presetIndex = 0;
   let tempoScale = 1;
-  let stepIndex = 0;
+  let step = 0;
   let timerId = null;
 
-  function ensureContext() {
+  function ensureGraph() {
     if (!ctx) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
-        ctx = new AudioCtx();
-      }
+      if (!AudioCtx) return;
+
+      ctx = new AudioCtx();
+      masterGain = ctx.createGain();
+      masterGain.gain.value = 0.22;
+
+      filterNode = ctx.createBiquadFilter();
+      filterNode.type = 'lowpass';
+      filterNode.frequency.value = 900;
+      filterNode.Q.value = 2.2;
+
+      delayNode = ctx.createDelay(1.0);
+      delayNode.delayTime.value = 0.22;
+
+      feedbackGain = ctx.createGain();
+      feedbackGain.gain.value = 0.22;
+
+      // Dry path
+      filterNode.connect(masterGain);
+
+      // Wet echo path
+      filterNode.connect(delayNode);
+      delayNode.connect(feedbackGain);
+      feedbackGain.connect(delayNode);
+      delayNode.connect(masterGain);
+
+      masterGain.connect(ctx.destination);
     }
+
     if (ctx && ctx.state === 'suspended') {
       ctx.resume().catch(() => {});
     }
+
+    applyPresetParams();
+  }
+
+  function applyPresetParams() {
+    if (!ctx || !filterNode || !delayNode || !feedbackGain) return;
+    const preset = LEVEL_SOUND_PRESETS[presetIndex] || LEVEL_SOUND_PRESETS[0];
+    const now = ctx.currentTime;
+    filterNode.frequency.setTargetAtTime(preset.filterFreq, now, 0.08);
+    delayNode.delayTime.setTargetAtTime(preset.delayTime, now, 0.08);
+    feedbackGain.gain.setTargetAtTime(preset.feedback, now, 0.08);
   }
 
   function stopLoop() {
@@ -77,54 +130,53 @@ function createStageSynth() {
     }
   }
 
-  function triggerTone(freq, wave, durationSec, peakGain, slideToFreq = null) {
-    if (!ctx || ctx.state !== 'running' || !freq) return;
+  function triggerPulse(freq, wave, durationSec, peakGain, slideFreq = null) {
+    if (!enabled || !ctx || ctx.state !== 'running' || !freq || !filterNode) return;
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+    const env = ctx.createGain();
 
     osc.type = wave;
     osc.frequency.setValueAtTime(freq, now);
-    if (slideToFreq) {
-      osc.frequency.exponentialRampToValueAtTime(slideToFreq, now + durationSec);
+    if (slideFreq) {
+      osc.frequency.exponentialRampToValueAtTime(slideFreq, now + durationSec);
     }
 
-    gain.gain.setValueAtTime(0.0008, now);
-    gain.gain.exponentialRampToValueAtTime(peakGain, now + 0.014);
-    gain.gain.exponentialRampToValueAtTime(0.0006, now + durationSec);
+    env.gain.setValueAtTime(0.0005, now);
+    env.gain.linearRampToValueAtTime(peakGain, now + 0.018);
+    env.gain.exponentialRampToValueAtTime(0.0004, now + durationSec);
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    osc.connect(env);
+    env.connect(filterNode);
 
     osc.start(now);
-    osc.stop(now + durationSec + 0.02);
+    osc.stop(now + durationSec + 0.03);
   }
 
   function playStep() {
     if (!enabled || !ctx || ctx.state !== 'running') return;
-    const track = STAGE_TRACKS[trackIndex];
-    const idx = stepIndex % track.bassNotes.length;
-    const bassFreq = track.bassNotes[idx];
-    const leadFreq = track.leadNotes[idx];
+    const preset = LEVEL_SOUND_PRESETS[presetIndex] || LEVEL_SOUND_PRESETS[0];
 
-    // Kick-style low sweep on even steps
-    if (idx % 2 === 0) {
-      triggerTone(115, 'sine', 0.11, 0.045, 42);
+    // Deep electronic sub thump every 2 steps
+    if (step % 2 === 0) {
+      const bassFreq = preset.bassFreqs[Math.floor(step / 2) % preset.bassFreqs.length];
+      triggerPulse(bassFreq, preset.bassWave, 0.24, 0.16, bassFreq * 0.88);
     }
 
-    triggerTone(bassFreq, track.bassWave, 0.18, 0.024);
+    // Filtered electronic synth pluck
+    const leadFreq = preset.pulseFreqs[step % preset.pulseFreqs.length];
     if (leadFreq > 0) {
-      triggerTone(leadFreq, track.leadWave, 0.14, 0.018);
+      triggerPulse(leadFreq, preset.synthWave, 0.18, 0.085);
     }
 
-    stepIndex++;
+    step++;
   }
 
   function startLoop() {
     stopLoop();
     if (!enabled) return;
-    const track = STAGE_TRACKS[trackIndex];
-    const stepMs = Math.max(90, Math.round((60000 / track.bpm / 2) / tempoScale));
+    const preset = LEVEL_SOUND_PRESETS[presetIndex] || LEVEL_SOUND_PRESETS[0];
+    const stepMs = Math.max(95, Math.round((60000 / preset.bpm / 2) / tempoScale));
     timerId = window.setInterval(playStep, stepMs);
   }
 
@@ -135,31 +187,41 @@ function createStageSynth() {
     get isRunning() {
       return timerId !== null;
     },
-    ensureContext,
-    startLoop,
+    unlock() {
+      if (!enabled) return;
+      ensureGraph();
+      if (!timerId) {
+        startLoop();
+      }
+    },
     setEnabled(value) {
       enabled = Boolean(value);
       if (!enabled) {
         stopLoop();
       } else {
-        ensureContext();
+        ensureGraph();
         startLoop();
       }
     },
-    setStage(nextTrackIdx, nextTempoScale = 1) {
-      trackIndex = (nextTrackIdx ?? 0) % STAGE_TRACKS.length;
+    setStage(nextIdx, nextTempoScale = 1) {
+      presetIndex = (nextIdx ?? 0) % LEVEL_SOUND_PRESETS.length;
       tempoScale = nextTempoScale || 1;
-      stepIndex = 0;
+      step = 0;
       if (enabled) {
-        ensureContext();
+        ensureGraph();
         startLoop();
       }
     },
     playJumpSfx(isOrb = false) {
       if (!enabled) return;
-      ensureContext();
-      if (!ctx || ctx.state !== 'running') return;
-      triggerTone(isOrb ? 360 : 250, isOrb ? 'triangle' : 'square', 0.12, 0.035, isOrb ? 780 : 540);
+      ensureGraph();
+      triggerPulse(
+        isOrb ? 320 : 210,
+        'sine',
+        0.13,
+        0.12,
+        isOrb ? 680 : 440
+      );
     }
   };
 }
@@ -184,9 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.getElementById('adv-btn-restart');
 
   initThemeManager(themeBtn);
-  initCursor();
-  initAmbientCanvas();
-  const synthAudio = createStageSynth();
+  const stageAudio = createElectronicStageAudio();
 
   if (levelSelector) {
     levelSelector.innerHTML = LEVELS_CONFIG.map(
@@ -205,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   engine = new AdventureGameEngine({
     canvas,
     levels: LEVELS_CONFIG,
-    onJumpSound: (isOrb) => synthAudio.playJumpSfx(isOrb),
+    onJumpSound: (isOrb) => stageAudio.playJumpSfx(isOrb),
     onLevelChange: (level, idx, diff = DIFFICULTY_CONFIGS.medium) => {
       if (levelCodeEl) levelCodeEl.textContent = level.code;
       if (levelNameEl) levelNameEl.textContent = level.name;
@@ -214,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (backdropKicker) backdropKicker.textContent = level.kicker;
       if (backdropTitle) backdropTitle.textContent = level.name;
       if (backdropSub) backdropSub.textContent = level.backdropSub;
-      synthAudio.setStage(level.trackIndex ?? idx, diff.tempoScale);
+      stageAudio.setStage(level.trackIndex ?? idx, diff.tempoScale || 1);
     },
     onProgress: (pct, statusText) => {
       if (pctEl) pctEl.textContent = `${pct}%`;
@@ -229,12 +289,14 @@ document.addEventListener('DOMContentLoaded', () => {
   difficultySelector?.addEventListener('change', (e) => {
     const diffKey = e.target.value || 'medium';
     engine.setDifficulty(diffKey);
+    const diffCfg = DIFFICULTY_CONFIGS[diffKey] || DIFFICULTY_CONFIGS.medium;
+    stageAudio.setStage(engine.levelIndex, diffCfg.tempoScale || 1);
     engine.restartCurrentLevel();
   });
 
   audioBtn?.addEventListener('click', () => {
-    const nextState = !synthAudio.enabled;
-    synthAudio.setEnabled(nextState);
+    const nextState = !stageAudio.enabled;
+    stageAudio.setEnabled(nextState);
     audioBtn.setAttribute('aria-pressed', String(!nextState));
     if (audioLabel) {
       audioLabel.textContent = nextState ? 'Audio: ON' : 'Audio: OFF';
@@ -256,10 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas,
     jumpBtn,
     onJump: () => {
-      synthAudio.ensureContext();
-      if (synthAudio.enabled && !synthAudio.isRunning) {
-        synthAudio.startLoop();
-      }
+      stageAudio.unlock();
       if (!stationModal.isOpen) {
         engine.jump();
       }

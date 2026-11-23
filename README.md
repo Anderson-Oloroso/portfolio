@@ -1,6 +1,6 @@
 # Portafolio Personal — Henrik Anderson Oloroso García
 
-> Portafolio interactivo multi-fase: una página estática profesional, un hub de navegación y una fase de aventura tipo runner. Construido con HTML5, CSS3 y Vanilla JavaScript (ESM).
+> Portafolio interactivo multi-fase: una página estática profesional, un hub de navegación 3D y una fase de aventura cyberpunk tipo runner (*Geometry Dash*). Construido con HTML5, CSS3 y Vanilla JavaScript (ESM).
 
 ---
 
@@ -35,10 +35,10 @@ portfolio/
 │   │   ├── tokens.css            ← Design tokens (colores, tipografía, radios)
 │   │   └── base.css              ← Estilos base, cursor, ambient-canvas
 │   ├── data/
-│   │   └── portfolio-data.js     ← Datos del portafolio (proyectos, stack, hobbies)
+│   │   └── portfolio-data.js     ← Datos del portafolio (proyectos, stack, hobbies, experiencia)
 │   └── js/
 │       ├── theme-manager.js      ← Alternador Sol/Luna (oscuro/claro)
-│       ├── i18n-manager.js       ← Internacionalización ES/EN
+│       ├── i18n-manager.js       ← Internacionalización ES/EN con eventos dinámicos
 │       ├── cursor.js             ← Cursor personalizado con efectos de inercia
 │       └── ambient-canvas.js     ← Canvas de partículas cuánticas cyan
 │
@@ -57,27 +57,39 @@ portfolio/
 │   │   └── modals.css            ← Inspector de proyecto, terminal CLI, quest modal
 │   └── js/
 │       ├── vendor/
-│       │   └── anime.min.js
+│       │   └── anime.min.js      ← Motor ligero de animaciones y stagger
 │       ├── core/
 │       │   ├── app.js            ← Punto de entrada JS (DOMContentLoaded)
 │       │   └── scroll-hud.js     ← Navbar scrolled + barra de progreso de lectura
 │       └── features/
-│           ├── project-filter.js  ← Renderizado y filtrado de proyectos
+│           ├── project-filter.js  ← Renderizado y filtrado de proyectos/stack/experiencia
 │           ├── hobby-spotlight.js ← Carrusel de hobbies con imágenes reales
 │           ├── discovery-quest.js ← Sistema de 5 nodos tipo misión
 │           └── cli-terminal.js   ← Terminal CLI interactiva
 │
 └── adventure-phase/
-    ├── index.html
+    ├── index.html                ← Fase de aventura cyberpunk (Runner)
     ├── css/
-    │   ├── adventure-layout.css
-    │   └── station-overlay.css
+    │   ├── adventure-layout.css      ← HUD superior, controles y canvas principal
+    │   ├── backdrop-typography.css   ← Paletas cyberpunk por nivel y tipografía gigante tipo amanecer
+    │   └── station-overlay.css       ← Modal de estaciones de información del portafolio
     ├── data/
-    │   └── levels-config.js
+    │   └── levels-config.js          ← Configuración de los 5 niveles, obstáculos y dificultades
     └── js/
+        ├── core/
+        │   ├── physics.js            ← Motor de físicas, gravedad, saltos y colisiones
+        │   ├── game-loop.js          ← Bucle de juego, cámara, dificultades y transición de etapas
+        │   └── input-handler.js      ← Controles de teclado, ratón y táctiles
+        ├── entities/
+        │   ├── player-cube.js        ← Cubo del jugador con estilos y emblemas por nivel
+        │   ├── obstacle-factory.js   ← Obstáculos temáticos (sierras, orbes, puentes, racks) con bases difuminadas
+        │   └── safe-station.js       ← Puntos de control seguros por etapa
+        ├── rendering/
+        │   ├── background-renderer.js ← Renderizado de pista y suelo difuminado con perspectiva
+        │   └── particle-system.js     ← Estelas de neón y partículas de impacto/salto
         └── ui/
-            ├── adventure-hud.js
-            └── station-modal.js
+            ├── adventure-hud.js       ← HUD, selector de dificultad/nivel y sintetizador electrónico por etapa
+            └── station-modal.js       ← Modal interactivo al alcanzar cada estación
 ```
 
 ---
@@ -93,10 +105,9 @@ portfolio/
 | **Tema Sol/Luna** | Alternador oscuro/claro con transición suave y persistencia en `localStorage` |
 
 ### Internacionalización (ES/EN)
-- Selector de idioma en el navbar
-- Textos en `data-i18n` actualizados vía `i18n-manager.js`
-- Datos localizados en `portfolio-data.js` (stack, hobbies, experiencia)
-- El Protocolo Núcleo muestra etiquetas y detalles en el idioma activo
+- Selector de idioma en el navbar (`Español` / `English`) con persistencia en `localStorage`
+- Textos estáticos en `data-i18n` actualizados en tiempo real vía `i18n-manager.js`
+- Re-renderizado dinámico de secciones (`experiencia`, `conocimientos`, `hobbies`, `Protocolo Núcleo`) mediante el evento `portfolio:langchange`
 
 ### Protocolo Núcleo (Discovery Quest)
 Sistema de gamificación con **5 nodos ocultos** distribuidos en la página estática:
@@ -133,6 +144,27 @@ Terminal interactiva con comandos: `help`, `stack`, `projects`, `about`, `contac
 
 ---
 
+## Fase de Aventura Cyberpunk (`adventure-phase/`)
+
+Minijuego de plataformas estilo *Geometry Dash* donde cada nivel representa una sección del portafolio con identidad visual, física y audio propios:
+
+| Nivel | Tema / Sección | Paleta de Pantalla | Estilo del Cubo | Obstáculos Destacados |
+|---|---|---|---|---|
+| **LVL 01** | Perfil & Enfoque | **Azul Eléctrico** (`#00e5ff`) | `visor` | Server racks, puentes de datos, pinchos cristal, orbes |
+| **LVL 02** | Experiencia | **Verde Matrix** (`#00ff66`) | `ring` | Módulos escalonados, sierras de neón giratorias, puentes |
+| **LVL 03** | Stack de Tecnologías | **Morado Cyberpunk** (`#c026ff`) | `circuit` | Cubos tecnológicos (`JS`, `NODE`, `EX`, `PG`, `SQL`, `DKR`, `PY`, `n8n`) |
+| **LVL 04** | Proyectos | **Naranja Cyber** (`#ff6a00`) | `diamond` | Pinchos dobles, sierras, racks y puentes suspendidos |
+| **LVL 05** | Más allá del código | **Magenta / Violeta Neón** (`#ff2a85`) | `nova` | Plataformas nube volumétricas, orbes y estación final |
+
+**Mecánicas y atmósfera:**
+- **Tipografía de fondo estilo amanecer:** Títulos gigantes con máscara de degradado vertical que difumina suavemente la base de las letras hacia el horizonte.
+- **Bases difuminadas:** Suelo y plataformas con halo difuminado (`blur` + degradados) para separar el primer plano del fondo.
+- **Dificultades (`Fácil / Medio / Difícil`):** Escala velocidad, gravedad, impulso de salto, margen de colisión y tempo del audio.
+- **Paisajes sonoros electrónicos (Web Audio API):** Generador sin dependencias externas con filtros *lowpass*, ecos (*delay*) y pulsos graves únicos por nivel (`Audio: ON/OFF`).
+- **Estaciones Seguras:** Puntos de control al final de cada etapa que pausan la partida para leer la información del portafolio antes de continuar.
+
+---
+
 ## Stack Técnico del Portafolio
 
 | Área | Tecnología |
@@ -142,8 +174,21 @@ Terminal interactiva con comandos: `help`, `stack`, `projects`, `about`, `contac
 | Tipografía | Inter + Fira Code (Google Fonts) |
 | Iconos | Devicons CDN, SimpleIcons CDN, SVGs inline |
 | Animaciones | CSS Keyframes + `anime.min.js` (efectos hero) |
-| Canvas | HTML5 Canvas API (ambient particles + hub 3D) |
+| Canvas | HTML5 Canvas 2D API (runner & partículas) + Three.js (hub 3D) |
+| Audio | Web Audio API (sintetizador electrónico filtrado por nivel) |
 | Hosting previsto | GitHub Pages |
+
+---
+
+## Ejecución Local
+
+Dado que el proyecto utiliza módulos nativos de JavaScript (`type="module"`), ejecútalo mediante un servidor HTTP local desde la raíz:
+
+```bash
+npx serve .
+# o con Python
+python -m http.server 8080
+```
 
 ---
 
@@ -173,39 +218,14 @@ Coloca los archivos `.jpg` en `assets/img/hobbies/` y referencia la ruta en el c
 { id: 'nuevo-hobby', label: 'Nombre', image: '../assets/img/hobbies/nombre.jpg', ... }
 ```
 
-### Agregar un icono de tecnología
-En `shared/data/portfolio-data.js`, agrega una entrada en `TECH_ICONS`:
-
-```js
-'Mi Tecnología': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/..." class="tech-badge-icon" loading="lazy">',
-```
-
----
-
-## Fases del Portafolio
-
-### Hub (`index.html`)
-Portal de navegación con canvas 3D y acceso a las dos fases.
-
-### Static Phase (`static-phase/index.html`)
-Portafolio profesional completo con:
-- Hero con foto y stack rápido
-- Perfil profesional y experiencia
-- Conocimientos con iconos de tecnología
-- Proyectos con filtros y modal de arquitectura
-- Mi vida fuera del código (carrusel con imágenes)
-- Contacto (Gmail, LinkedIn, GitHub)
-- Protocolo Núcleo (gamificación de 5 nodos)
-- Terminal CLI interactiva
-
-### Adventure Phase (`adventure-phase/index.html`)
-Runner de plataformas donde cada estación es un proyecto del portafolio. Incluye ambient canvas de fondo.
+### Personalizar niveles de aventura
+Edita `LEVELS_CONFIG` y `DIFFICULTY_CONFIGS` en [`adventure-phase/data/levels-config.js`](adventure-phase/data/levels-config.js) para ajustar paletas, estilos de cubo, distribución de obstáculos o parámetros de velocidad.
 
 ---
 
 ## Convenciones
 
-- **Ramas Git**: `develop` para desarrollo activo → `main` para producción/GitHub Pages
+- **Ramas Git**: `develop` para desarrollo activo → `main` para producción/GitHub Pages (`feat/...`, `fix/...`, `docs/...`)
 - **Imágenes**: Fotos propias en `assets/img/`, imágenes de proyectos en Unsplash o locales
 - **CV**: Archivo PDF en `assets/cv/` (no se versiona en git por `.gitignore`)
 - **Idiomas**: ES como idioma base, EN como alternativo vía selector
